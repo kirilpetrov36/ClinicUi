@@ -1,0 +1,8 @@
+<app-sign-out></app-sign-out>
+<div class="frame">     
+    <div class="name" >{{patientInfoModel?.firstName}} {{patientInfoModel?.lastName}}</div>
+
+    <div class="title" [routerLink]="['/patient/view', patientId]">See profile</div>
+    <div class="title" [routerLink]="['/appointment/create', patientId]">Create an appoinment</div>
+    <div class="title" [routerLink]="['/patient/history']">See appoinments history</div>
+</div>

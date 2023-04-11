@@ -1,0 +1,71 @@
+@import "/src/app/shared/styles/vars.scss";
+
+.frame{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 65vw;
+    height: 70vh;
+    margin-left: auto;
+    margin-right: auto;
+    // margin-top: 8vh;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.25);
+    padding: 2vh;
+    overflow-y: scroll;
+    /* From https://css.glass */
+    background: rgba( 255, 255, 255, 1 );
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10.6px);
+    -webkit-backdrop-filter: blur(10.6px);
+}
+
+.day-week-title{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 5vh
+}
+
+.date {
+    font-style: normal;
+    font-size: 25px;
+    color: $main-color;
+    margin-left: 10px;
+}
+
+.day-week-item{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.day-week{
+    font-style: normal;
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 23px;
+    color: $font-color-second;
+}
+
+.appointment{
+    display: flex;
+    flex-direction: row;
+    height: 6vh;
+
+    mat-icon{
+        margin-left: 10px;
+    }
+}
+
+.patientName{
+    font-style: normal;
+    font-size: 25px;
+    color: $font-color-second;
+}
+
+.time{
+    font-style: normal;
+    font-size: 25px;
+    color: $font-color-main;
+    margin-right: 20px;
+}

@@ -1,0 +1,30 @@
+@import "/src/app/shared/styles/vars.scss";
+
+.logout-block {
+    position:relative;
+    left: 70vw;
+    bottom: 5vw;
+    width: 7vw;
+
+    &:hover {
+        cursor: pointer;
+        span, mat-icon{
+            color: #797986;
+        }
+    }
+
+    .logout-icon {
+        color: $font-color-main;
+        font-size: 16px;
+        line-height: 24px;
+    }
+
+    .logout-button {
+        font-family: $font-family;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 16px;
+        color: $font-color-main;
+    }
+  }

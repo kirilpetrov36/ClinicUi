@@ -1,0 +1,133 @@
+@import "/src/app/shared/styles/vars.scss";
+
+.frame{
+    width: 50vw;
+    height: 40vw;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    //margin-top: 5vw;
+    /* From https://css.glass */
+    background: rgba( 255, 255, 255, 0.65 );
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10.6px);
+    -webkit-backdrop-filter: blur(10.6px);
+    
+
+    .messages-box{
+        height: 35vw;
+        padding-top: 10px;
+        //margin-top: 5vw;
+        display: flex;
+        flex-direction: column-reverse;
+        align-items: center;
+        overflow: scroll;
+    overflow-x: hidden;
+    }
+    
+
+    .message{
+        background-color: #348fee;
+        border-radius: 17px;
+        padding: 10px;
+        margin-top: 1px;
+        color: white;
+        align-self: flex-end;
+        margin-right: 3vw;
+        margin-bottom: 1px;
+
+        .time{
+            font-size: 10px;
+            color: #bdddff;
+            font-weight: 200;
+        }
+    }
+
+    .other-message{
+        background-color: #d8e8fa;
+        border-radius: 17px;
+        padding: 10px;
+        margin-top: 1px;
+        color: rgb(0, 0, 0);
+        align-self: flex-start;
+        margin-left: 3vw;
+        margin-bottom: 1px;
+
+        .time{
+            font-size: 10px;
+            color: #a3a3a3;
+            font-weight: 200;
+        }
+    }
+
+    .input-button{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 15px;
+        padding-top: 10px;
+        padding-bottom: 15px;
+    }
+    
+    .send-form{
+        width: 35vw;
+        height: 2vw;
+        border: 1px rgb(239, 239, 239) solid ;
+        border-radius: 15px;
+        background-color: white;
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        padding-left: 10px;
+
+        &:focus{
+            outline: none;
+        }
+    }
+
+    .send-form:focus {
+        outline: none;
+    }
+
+    input::placeholder {
+        font-weight: bold;
+        opacity: 0.5;
+        color: rgb(159, 159, 159);
+    }
+
+    .send-button{
+        color: rgb(114, 168, 255);
+        margin-left: 5px;
+
+        &:hover{
+            cursor: pointer;
+        }
+    }
+    
+    .submit-button{
+        width: 2.2vw;
+        height: 2.2vw;
+        background: $main-color;
+        border-radius: 2.2vw;
+        box-shadow: unset;
+        border: 1px rgb(226, 226, 226) solid;
+        color: white;
+    
+        &:hover{
+            background: #38c550;
+            cursor: pointer;
+        }
+    
+        .mat-button-wrapper {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 9px;
+            text-align: center;
+            color: $white;
+            font-family: $font-family;
+        }
+    }
+}
+

@@ -1,1 +1,155 @@
-/* You can add global styles to this file, and also import other style files */
+@import "/src/app/shared/styles/vars.scss";
+
+html, body {
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(to top right, #e7fff7, #dcd8ff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+}
+
+.mat-dialog-container {
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+  background: #ffffff;
+  color: #000000;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+  &:hover{
+    background: #f2f2f2;
+  }
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #bfbfbf;
+  border-radius: 16px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #828282;
+}
+
+body {
+  margin: 0;
+  font-family: $font-family;
+}
+
+.invalid-input {
+  border: 1px solid $error !important;
+}
+
+.w-33 {
+  width: 33% !important;
+}
+
+.mat-tooltip {
+  font-size: 12px !important;
+}
+
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+
+  .mat-cell {
+    padding-left: 0;
+    font-family: $font-family;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: $font-color-second;
+
+    span {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+  }
+
+  .checkbox-container {
+    display: flex;
+    justify-content: center;
+  }
+
+  .drag-handle-header-cell,
+  .drag-handle-cell {
+    max-width: 50px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .checkbox-header-cell,
+  .checkbox-cell {
+    max-width: 100px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .coordinates-header-cell,
+  .coordinates-cell {
+    max-width: 150px;
+  }
+
+  .category-header-cell,
+  .category-cell {
+    max-width: 200px;
+  }
+
+  .actions-header-cell,
+  .actions-cell {
+    max-width: 150px;
+  }
+
+  .actions-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .show-more-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      .show-more-link {
+        color: $main-color;
+        font-family: $font-family;
+        font-style: normal;
+        font-weight: bold;
+        font-size: 10px;
+        line-height: 11px;
+        text-decoration-line: underline;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.cdk-drop-list-dragging .mat-row:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+

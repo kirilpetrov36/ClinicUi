@@ -1,0 +1,45 @@
+<mat-icon *ngIf="!isViewMode" class="back-arrow" [routerLink]="['/doctor/schedule']">keyboard_backspace</mat-icon>
+<mat-icon *ngIf="isViewMode" class="back-arrow" [routerLink]="['/patient/menu/', patientId]">keyboard_backspace</mat-icon>
+<form [formGroup]="form" (submit)="submit()">
+    <div class="container">
+        <div class="name-box">
+            <div class="name" >{{patientInfoModel?.firstName}} {{patientInfoModel?.lastName}}</div>
+            <mat-icon *ngIf="!isViewMode" [routerLink]="['/chat/by-doctor', patientId]"> chat</mat-icon>
+            <mat-icon *ngIf="!isViewMode" [routerLink]="['/reminder', patientId]">alarm</mat-icon>
+        </div>
+
+        <div class="title">Diagnosis:</div>
+        <div style="display: flex; flex-direction: row; align-items: center">
+            <textarea class="input"
+                    formControlName="diagnosis">
+            </textarea>
+            <mat-icon (click)="showDiagnosis()" style="margin-left: 1vw;">history</mat-icon>
+        </div>
+
+        <div class="title">Analyses:</div>
+        <div style="display: flex; flex-direction: row; align-items: center">
+            <textarea class="input"
+                      formControlName="analyses">
+            </textarea>
+            <mat-icon (click)="showAnalyses()" style="margin-left: 1vw;">history</mat-icon>
+        </div>
+
+        <div class="title">Therapy:</div>
+        <div style="display: flex; flex-direction: row; align-items: center">
+            <textarea class="input"
+                      formControlName="treatment">
+            </textarea>
+            <mat-icon (click)="showTherapy()" style="margin-left: 1vw;">history</mat-icon>
+        </div>
+
+        <div *ngIf="!isViewMode" class="footer">
+            <button mat-raised-button
+                    (click)="submit"
+                    class="save-button">
+              <span class="text">Save</span>
+            </button>
+        </div>
+    </div>
+
+
+</form>

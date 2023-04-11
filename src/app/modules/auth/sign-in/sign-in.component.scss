@@ -1,0 +1,86 @@
+@import "/src/app/shared/styles/vars.scss";
+
+
+
+  .login-block {
+    width: 46vw;
+    height: 28vw;
+    background-color: $sign-in-background-color-main;
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    /* From https://css.glass */
+    background: rgba( 255, 255, 255, 0.65 );
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10.6px);
+    -webkit-backdrop-filter: blur(10.6px);
+    border: 2px solid white;
+
+    .title {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 20px;
+      line-height: 23px;
+      text-align: center;
+      margin-bottom: 30px;
+      color: $font-color-second;
+    }
+
+    .input {
+      width: 276px;
+      height: 36px;
+      border-radius: 6px;
+      border: 1px solid $gray;
+      padding: 0 12px;
+      margin: 10px 0;
+      font-family: $font-family;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 14px;
+      line-height: 16px;
+      color: $font-color-second;
+    }
+  }
+
+
+:host ::ng-deep {
+  .submit-button {
+    margin-top: 20px;
+    width: 200px;
+    height: 35px;
+    background: $main-color;
+    border-radius: 5px;
+    box-shadow: unset;
+
+    &:hover{
+      background: #38c550;
+    }
+
+    .mat-button-wrapper {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 9px;
+      text-align: center;
+      color: $white;
+      font-family: $font-family;
+    }
+  }
+
+  .create-acc{
+    margin-top: 1vw;
+    color: $font-color-main;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+
+    &:hover{
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}

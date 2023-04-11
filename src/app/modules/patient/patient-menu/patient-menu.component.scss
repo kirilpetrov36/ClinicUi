@@ -1,0 +1,46 @@
+@import "/src/app/shared/styles/vars.scss";
+
+.frame{
+    width: 56.63vw;
+    height: 35vw;
+    margin-left: auto;
+    margin-right: auto;
+    //margin-top: 5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* From https://css.glass */
+    background: rgba( 255, 255, 255, 0.6);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(10.6px);
+    -webkit-backdrop-filter: blur(10.6px);
+    border: 2px solid rgba(255, 255, 255, 1);
+
+    .name {
+        font-size: 3vw;
+        font-style: normal;
+        font-weight: bold;
+        font-family: 'Times New Roman', Times, serif;
+        margin-top: 8vw;
+        margin-bottom: 5vw;
+    }
+
+    .title {
+        font-size: 1.4vw;
+        font-style:normal;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 300;
+        margin-bottom: 2vw;
+
+        &:hover{
+            cursor: pointer;
+            //color: linear-gradient(to top right, #e7fff7, #dcd8ff);
+            background: -webkit-linear-gradient(#1adf9d, #7e73e4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.7vw;
+        }
+    }
+
+}

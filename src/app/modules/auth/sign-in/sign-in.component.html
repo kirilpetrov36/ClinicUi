@@ -1,0 +1,30 @@
+<form [formGroup]="form"
+      (submit)="signIn()">
+  
+    <div class="login-block">
+      <span class="title">Welcome Back!</span>
+
+      <input class="input"
+             [class.invalid-input]="(form.controls['email'].touched || form.controls['email'].dirty) && form.controls['email'].invalid"
+             placeholder="Email *"
+             required
+             formControlName="email"/>
+
+      <input class="input"
+             [class.invalid-input]="(form.controls['password'].touched || form.controls['password'].dirty) && form.controls['password'].invalid"
+             formControlName="password"
+             placeholder="Password *"
+             required
+             type="password"/>
+
+      <button mat-raised-button
+              type="submit"
+              class="submit-button">
+        Login
+      </button>
+
+      <span class="create-acc" [routerLink]="['/sign-up']">Create an account</span>
+    </div>
+  
+</form>
+

@@ -1,0 +1,22 @@
+<app-sign-out style="position: relative; left: 5vw;"></app-sign-out>
+<div class="frame">
+    <div class="day-week-item" *ngFor="let i of patientSchedule" id="{{i.id}}" >
+        <ng-container *ngIf="patientSchedule.length > 0">
+            <div  class="day-week-title">
+                <div class="day-week" [style.color]="ifTodayElement(i.todaySchedule[0].date)?'#2F97FA':'black'">{{i.dayWeek}} </div>
+                <div class="date">{{i.todaySchedule[0].date | date: 'MMM d'}}</div>
+                <div *ngIf=""></div>
+            </div>
+            
+            <div *ngFor="let schedule of i.todaySchedule">
+                <div  class="appointment">
+                    <span class="time">{{schedule.time}}</span>
+                    <span class="patientName">{{schedule.doctorFirstName}} {{schedule.doctorLastName}}</span>
+                    <mat-icon [routerLink]="['/chat/by-patient', schedule.doctorId]"> chat</mat-icon>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+    <div *ngIf="patientSchedule?.length == 0">You have ho appointments</div>
+</div>
+

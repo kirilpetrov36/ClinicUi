@@ -1,0 +1,205 @@
+@import "/src/app/shared/styles/vars.scss";
+
+.frame{
+    width: 56.63vw;
+    height: 35vw;
+    margin-left: auto;
+    margin-right: auto;
+    //margin-top: 5vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* From https://css.glass */
+    background: rgba( 255, 255, 255, 0.65 );
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10.6px);
+    -webkit-backdrop-filter: blur(10.6px);
+
+    .inputs {
+        display: flex;
+        flex-direction: column;
+        margin-top: 2vw;
+        margin-bottom: 1vw;
+    }
+
+    .name {
+        font-size: 3vw;
+        font-style: normal;
+        font-weight: bold;
+        font-family: 'Times New Roman', Times, serif;
+        margin-top: 4vw;
+        margin-bottom: 2vw;
+    }
+
+    .title {
+        font-size: 1.4vw;
+        font-style:normal;
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        font-weight: 300;
+        margin-bottom: 2vw;
+
+        &:hover{
+            cursor: pointer;
+            color: $main-color;
+            font-size: 1.7vw;
+        }
+    }
+
+    .date{
+        margin-top: 3vw;
+    }
+
+}
+
+:host ::ng-deep {
+    .submit-button {
+        margin-top: 2vw;
+        width: 200px;
+        height: 2.2vw;
+        background: $main-color;
+        border-radius: 5px;
+        box-shadow: unset;
+    
+        &:hover{
+            background: #38c550;
+        }
+    
+        .mat-button-wrapper {
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 9px;
+            text-align: center;
+            color: $white;
+            font-family: $font-family;
+        }
+      }
+    .mat-form-field-appearance-outline .mat-form-field-outline {
+        color: $gray;
+    }
+  
+    .mat-form-field-label {
+        font-family: $font-family;
+        font-style: normal;
+        font-weight: normal;
+        color: #757575 !important;
+    }
+  
+    .mat-form-field {
+        width: 300px;
+        height: 2.2vw;
+        border-radius: 6px;
+        margin: 0.6vw 0;
+    }
+  
+    .mat-select-panel {
+        background-color: $white;
+    
+        .mat-option {
+            color: $font-color-second;
+    
+            .mat-option-text {
+                color: $font-color-main;
+                font-family: $font-family;
+                font-style: normal;
+                font-weight: normal;
+                font-size: 14px;
+            }
+        }
+    
+        .mat-option.mat-selected:not(.mat-option-disabled) {
+            .mat-option-text {
+                color: $main-color;
+            }
+        }
+    }
+  
+    .mat-select {
+        .mat-select-value {
+            color: $font-color-second;
+        }
+        .mat-select-arrow {
+            color: $gray;
+        } 
+    }
+
+    .mat-datepicker-toggle  {
+    color: #9695A8 !important;
+    }
+
+    .mat-input-element:disabled {
+    color: #9695A8 !important;
+    }
+    
+    .mat-form-field-wrapper {
+    padding: 0;
+    }  
+
+}
+
+::ng-deep {
+
+    .mat-input-element::placeholder{
+        color: #757575;
+    }
+
+    .mat-dialog-container {
+        background-color: transparent;
+        box-shadow: none;
+    }
+    
+    .mat-calendar {
+    background: white;
+
+        .mat-calendar-body-label {
+            color: $mat-calendar-label;
+        }
+
+        .mat-calendar-body-cell-content {
+            color: #6D6C6D;
+        }
+        
+        .mat-calendar-table-header {
+            color: $mat-calendar-label;
+        }
+        
+        .mat-calendar-header {
+            color: $mat-calendar-body;
+        }
+        
+        .mat-calendar-arrow {
+            border-top-color: $mat-calendar-body;
+        }
+        
+        .mat-calendar-table-header-divider::after {
+            background: #E2E0E2;
+        }
+        
+        .mat-calendar-body-selected {
+            background-color: $main-color;
+            color: white;
+        }
+    }
+
+    .mat-datepicker-content .mat-calendar-previous-button, .mat-datepicker-content  .mat-calendar-next-button {
+        color: $mat-calendar-body;
+    }
+
+    .mat-datepicker-content {
+        background-color: white;
+        color: $mat-calendar-body;
+    }
+
+    .mat-form-field-underline{
+        background-color: $mat-calendar-label !important;
+    }
+
+    .mat-form-field.mat-focused .mat-form-field-ripple {
+        background-color: $main-color;
+    }
+    
+    .mat-input-element {
+        caret-color: $main-color;
+    }
+}
