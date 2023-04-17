@@ -1,5 +1,5 @@
 export interface UpdateUserRemindersModel{
     text: string;
-    remindTime: string;
+    times: string[];
     id: string;
 }

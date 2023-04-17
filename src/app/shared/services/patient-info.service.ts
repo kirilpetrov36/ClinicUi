@@ -34,8 +34,8 @@ export class PatientInfoService {
     return this.http.put<PatientInfoModel>(`${environment.apiUrl}/api/patientInfo`, model);
   }
 
-  public getPatientSchedule(): Observable<DayWeekSchedule<PatientScheduleModel>[]> {
-    return this.http.get<DayWeekSchedule<PatientScheduleModel>[]>(`${environment.apiUrl}/api/schedule/patient`);
+  public getPatientSchedule(): Observable<PatientScheduleModel[]> {
+    return this.http.get<PatientScheduleModel[]>(`${environment.apiUrl}/api/schedule/patient`);
   }
 
   public getPatientDiagnosis(patientId: string): Observable<PatientSomeInfoModel[]>{

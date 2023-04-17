@@ -1,4 +1,5 @@
 export interface DoctorScheduleModel{
+    id: string;
     patientId: string;
     patientFirstName : string;
     patientLastName : string;

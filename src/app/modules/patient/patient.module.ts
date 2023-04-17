@@ -7,6 +7,12 @@ import {PatientComponent, PatientInfoHistoryComponent} from './patient.component
 import { PatientMenuComponent } from './patient-menu/patient-menu.component';
 import { SharedModule } from 'src/app/shared/components/shared.module';
 import { PatientHistoryComponent } from './patient-history/patient-history.component';
+import {
+    MonthViewModule,
+    MultiDayViewModule,
+    SchedulerModule,
+    TimelineViewModule
+} from "@progress/kendo-angular-scheduler";
 
 const routes: Routes = [
   {
@@ -34,13 +40,17 @@ const routes: Routes = [
     PatientHistoryComponent,
     PatientInfoHistoryComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    SharedModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        SharedModule,
+        MonthViewModule,
+        MultiDayViewModule,
+        SchedulerModule,
+        TimelineViewModule
+    ]
 })
 export class PatientModule { }

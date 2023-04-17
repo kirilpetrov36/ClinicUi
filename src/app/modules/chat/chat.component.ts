@@ -35,7 +35,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loaderService.showLoader();
-    
+
     this.activatedRoute.params.pipe(takeUntil(this.unsubscribe$)).subscribe(params => {
       if (!!params['id']) {
         if (this.router.url.includes('by-doctor')) {
@@ -55,12 +55,11 @@ export class ChatComponent implements OnInit, OnDestroy {
                     finalize(() => this.loaderService.hideLoader())
                   )
                   .subscribe();
-              } 
+              }
             })
           ).subscribe();
         }
         else{
-          
           this.authService.authData$.pipe(
             map((authData) => {
               if (!!authData && !!authData.token && authData?.userId) {
@@ -70,14 +69,14 @@ export class ChatComponent implements OnInit, OnDestroy {
                   takeUntil(this.unsubscribe$),
                   map(data => {
                     this.signalRService.connect(data.chatId, authData.token);
-                    this.chatId = data.chatId,
+                    this.chatId = data.chatId;
                     this.chatDataService.data = data.messages.reverse();
                     this.chatDataService.chatData$.next(this.chatDataService.data);
                   }),
                   finalize(() => this.loaderService.hideLoader())
                 )
                 .subscribe();
-              } 
+              }
             })
           ).subscribe();
         }
@@ -93,6 +92,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   sendMessage(): void {
     this.signalRService.sendMessage(this.userInput.value, this.chatId);
+    this.userInput.reset();
   }
 
 }

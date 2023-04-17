@@ -1,229 +1,73 @@
-import {Component, HostListener, Inject, LOCALE_ID, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { finalize, map, takeUntil } from 'rxjs/operators';
-import { DayWeekSchedule } from 'src/app/shared/models/dayweek-schedule.model';
 import { DoctorScheduleModel } from 'src/app/shared/models/doctor-schedule.model';
 import { DoctorService } from 'src/app/shared/services/doctor.service';
 import { LoaderService } from 'src/app/shared/services/loader.service';
-
-import {
-  endOfDay,
-  addMonths
-} from 'date-fns';
-import {
-  DAYS_IN_WEEK,
-  SchedulerViewDay,
-  SchedulerViewHour,
-  SchedulerViewHourSegment,
-  CalendarSchedulerEvent,
-  CalendarSchedulerEventAction,
-  startOfPeriod,
-  endOfPeriod,
-  addPeriod,
-  subPeriod,
-  SchedulerDateFormatter,
-  SchedulerEventTimesChangedEvent
-} from 'angular-calendar-scheduler';
-import {
-  CalendarView,
-  CalendarDateFormatter,
-  DateAdapter
-} from 'angular-calendar';
-import {CalendarService} from "../../../shared/services/calendar.service";
+import { SchedulerEvent } from "@progress/kendo-angular-scheduler";
 
 @Component({
   selector: 'app-doctor-schedule',
   templateUrl: './doctor-schedule.component.html',
   styleUrls: ['./doctor-schedule.component.scss']
 })
-export class DoctorScheduleComponent implements OnInit {
+export class DoctorScheduleComponent implements OnInit, OnDestroy {
 
-  // public doctorSchedule!: DayWeekSchedule<DoctorScheduleModel>[];
-  // private readonly unsubscribe$ = new Subject<void>();
-  //
-  // constructor(
-  //   private readonly doctorService: DoctorService,
-  //   private readonly loaderService: LoaderService,
-  //   public readonly router: Router,
-  //   private readonly snackBar: MatSnackBar
-  // ) { }
-  //
-  // ngOnInit(): void {
-  //
-  //   this.loaderService.showLoader();
-  //
-  //   this.doctorService.getDoctorSchedule()
-  //     .pipe(
-  //       map(
-  //         model => {
-  //           this.doctorSchedule = model;
-  //         }
-  //       ),
-  //       finalize(() => this.loaderService.hideLoader()),
-  //       takeUntil(this.unsubscribe$)
-  //     )
-  //     .subscribe(
-  //       () => console.log(),
-  //       () => this.snackBar.open('Something got wrong!', 'OK')
-  //     )
-  // }
-  //
-  // public ngOnDestroy(): void {
-  //   this.unsubscribe$.next();
-  //   this.unsubscribe$.complete();
-  // }
+  public doctorSchedule!: DoctorScheduleModel[];
+  private readonly unsubscribe$ = new Subject<void>();
+  public selectedDate: Date = new Date();
+  public events!: SchedulerEvent[];
 
-  title = 'Angular Calendar Scheduler Demo';
-
-  CalendarView = CalendarView;
-
-  view: CalendarView = CalendarView.Week;
-  viewDate: Date = new Date();
-  viewDays: number = DAYS_IN_WEEK;
-  refresh: Subject<any> = new Subject();
-  locale: string = 'en';
-  hourSegments: number = 4;
-  weekStartsOn: number = 1;
-  startsWithToday: boolean = true;
-  activeDayIsOpen: boolean = true;
-  excludeDays: number[] = []; // [0];
-  dayStartHour: number = 6;
-  dayEndHour: number = 22;
-
-  minDate: Date = new Date();
-  maxDate: Date = endOfDay(addMonths(new Date(), 1));
-  dayModifier!: Function;
-  hourModifier!: Function;
-  segmentModifier: Function;
-  eventModifier: Function;
-  prevBtnDisabled: boolean = false;
-  nextBtnDisabled: boolean = false;
-
-  actions: CalendarSchedulerEventAction[] = [
-    {
-      when: 'enabled',
-      label: '<span class="valign-center"><i class="material-icons md-18 md-red-500">cancel</i></span>',
-      title: 'Delete',
-      onClick: (event: CalendarSchedulerEvent): void => {
-        console.log('Pressed action \'Delete\' on event ' + event.id);
-      }
-    },
-    {
-      when: 'cancelled',
-      label: '<span class="valign-center"><i class="material-icons md-18 md-red-500">autorenew</i></span>',
-      title: 'Restore',
-      onClick: (event: CalendarSchedulerEvent): void => {
-        console.log('Pressed action \'Restore\' on event ' + event.id);
-      }
-    }
-  ];
-
-  events!: CalendarSchedulerEvent[];
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.adjustViewDays();
-  }
-
-  constructor(@Inject(LOCALE_ID) locale: string, private appService: CalendarService, private dateAdapter: DateAdapter) {
-    this.locale = locale;
-
-    // this.dayModifier = ((day: SchedulerViewDay): void => {
-    //     day.cssClass = this.isDateValid(day.date) ? '' : 'cal-disabled';
-    // }).bind(this);
-
-    // this.hourModifier = ((hour: SchedulerViewHour): void => {
-    //     hour.cssClass = this.isDateValid(hour.date) ? '' : 'cal-disabled';
-    // }).bind(this);
-
-    this.segmentModifier = ((segment: SchedulerViewHourSegment): void => {
-      segment.isDisabled = !this.isDateValid(segment.date);
-    }).bind(this);
-
-    this.eventModifier = ((event: CalendarSchedulerEvent): void => {
-      event.isDisabled = !this.isDateValid(event.start);
-    }).bind(this);
-
-    this.adjustViewDays();
-    this.dateOrViewChanged();
-  }
+  constructor(
+    private readonly doctorService: DoctorService,
+    private readonly loaderService: LoaderService,
+    public readonly router: Router,
+    private readonly snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
-    this.appService.getEvents(this.actions)
-      .then((events: CalendarSchedulerEvent[]) => this.events = events);
+
+    this.loaderService.showLoader();
+
+    this.doctorService.getDoctorSchedule()
+      .pipe(
+        map(
+          model => {
+            this.doctorSchedule = model;
+            this.events = model.map(dataItem => (
+              <SchedulerEvent> {
+                id: dataItem.patientId,
+                start: new Date(dataItem.date),
+                end: this.endDate(dataItem.date),
+                isAllDay: false,
+                title: dataItem.patientFirstName + ' ' + dataItem.patientLastName
+              }
+            ));
+          }
+        ),
+        finalize(() => this.loaderService.hideLoader()),
+        takeUntil(this.unsubscribe$)
+      )
+      .subscribe(
+        () => console.log(),
+        () => this.snackBar.open('Something got wrong!', 'OK')
+      )
   }
 
-  adjustViewDays(): void {
-    const currentWidth: number = window.innerWidth;
-    if (currentWidth <= 450) {
-      this.viewDays = 1;
-    } else if (currentWidth <= 768) {
-      this.viewDays = 3;
-    } else {
-      this.viewDays = DAYS_IN_WEEK;
-    }
+  public ngOnDestroy(): void {
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
   }
 
-  changeDate(date: Date): void {
-    console.log('changeDate', date);
-    this.viewDate = date;
-    this.dateOrViewChanged();
+  private endDate(date: Date): Date{
+    let newDate = new Date(date);
+    newDate.setMinutes(newDate.getMinutes()+30);
+    return newDate;
   }
-
-  changeView(view: CalendarView): void {
-    console.log('changeView', view);
-    this.view = view;
-    this.dateOrViewChanged();
+  onClick(e: any){
+    console.log(e);
+    this.router.navigate(['/patient/edit/'+ e.event.id]);
   }
-
-  dateOrViewChanged(): void {
-    if (this.startsWithToday) {
-      this.prevBtnDisabled = !this.isDateValid(subPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1));
-      this.nextBtnDisabled = !this.isDateValid(addPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1));
-    } else {
-      this.prevBtnDisabled = !this.isDateValid(endOfPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, subPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1)));
-      this.nextBtnDisabled = !this.isDateValid(startOfPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, addPeriod(this.dateAdapter, CalendarView.Day/*this.view*/, this.viewDate, 1)));
-    }
-
-    if (this.viewDate < this.minDate) {
-      this.changeDate(this.minDate);
-    } else if (this.viewDate > this.maxDate) {
-      this.changeDate(this.maxDate);
-    }
-  }
-
-  private isDateValid(date: Date): boolean {
-    return /*isToday(date) ||*/ date >= this.minDate && date <= this.maxDate;
-  }
-
-  dayHeaderClicked(day: SchedulerViewDay): void {
-    console.log('dayHeaderClicked Day', day);
-  }
-
-  hourClicked(hour: SchedulerViewHour): void {
-    console.log('hourClicked Hour', hour);
-  }
-
-  segmentClicked(action: string, segment: SchedulerViewHourSegment): void {
-    console.log('segmentClicked Action', action);
-    console.log('segmentClicked Segment', segment);
-  }
-
-  eventClicked(action: string, event: CalendarSchedulerEvent): void {
-    console.log('eventClicked Action', action);
-    console.log('eventClicked Event', event);
-  }
-
-  eventTimesChanged({ event, newStart, newEnd, type }: SchedulerEventTimesChangedEvent): void {
-    console.log('eventTimesChanged Type', type);
-    console.log('eventTimesChanged Event', event);
-    console.log('eventTimesChanged New Times', newStart, newEnd);
-    const ev: CalendarSchedulerEvent = this.events.find(e => e.id === event.id)!;
-    ev.start = newStart;
-    ev.end = newEnd;
-    this.refresh.next();
-  }
-
 }

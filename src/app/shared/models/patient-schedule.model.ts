@@ -1,7 +1,8 @@
 export interface PatientScheduleModel{
-    doctorId: string;
-    doctorFirstName : string;
-    doctorLastName : string;
-    date: Date;
-    time: string;
+  id: string
+  doctorId: string;
+  doctorFirstName : string;
+  doctorLastName : string;
+  date: Date;
+  time: string;
 }

@@ -118,11 +118,13 @@ export class PatientComponent implements OnInit , OnDestroy{
   }
 
   public showDiagnosis(): void {
-    this.loaderService.showLoader()
+    if (!this.patientInfoModel.diagnosis){
+      return;
+    }
+
     this.patientInfoService.getPatientDiagnosis(this.patientId)
       .pipe(
         takeUntil(this.unsubscribe$),
-        finalize(() => this.loaderService.hideLoader()),
         tap(data => {
           this.openDialog(data);
         })
@@ -131,11 +133,12 @@ export class PatientComponent implements OnInit , OnDestroy{
   }
 
   public showAnalyses(): void {
-      this.loaderService.showLoader()
+    if (!this.patientInfoModel.analyses){
+      return;
+    }
       this.patientInfoService.getPatientAnalyses(this.patientId)
           .pipe(
               takeUntil(this.unsubscribe$),
-              finalize(() => this.loaderService.hideLoader()),
               tap(data => {
                   this.openDialog(data);
               })
@@ -144,11 +147,12 @@ export class PatientComponent implements OnInit , OnDestroy{
   }
 
   public showTherapy(): void{
-    this.loaderService.showLoader()
+    if (!this.patientInfoModel.treatment){
+      return;
+    }
     this.patientInfoService.getPatientTreatments(this.patientId)
       .pipe(
         takeUntil(this.unsubscribe$),
-        finalize(() => this.loaderService.hideLoader()),
         tap(data => {
           this.openDialog(data);
         })

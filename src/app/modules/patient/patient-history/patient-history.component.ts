@@ -3,20 +3,22 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map, finalize, takeUntil } from 'rxjs/operators';
-import { DayWeekSchedule } from 'src/app/shared/models/dayweek-schedule.model';
 import { PatientScheduleModel } from 'src/app/shared/models/patient-schedule.model';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { PatientInfoService } from 'src/app/shared/services/patient-info.service';
+import {SchedulerEvent} from "@progress/kendo-angular-scheduler";
 
 @Component({
   selector: 'app-patient-history',
   templateUrl: './patient-history.component.html',
   styleUrls: ['./patient-history.component.scss']
 })
-export class PatientHistoryComponent implements OnInit, OnDestroy, AfterViewChecked {
+export class PatientHistoryComponent implements OnInit, OnDestroy {
 
   private readonly unsubscribe$ = new Subject<void>();
-  public patientSchedule!: DayWeekSchedule<PatientScheduleModel>[];
+  public patientSchedule!: PatientScheduleModel[];
+  public selectedDate: Date = new Date();
+  public events!: SchedulerEvent[];
 
   constructor(
     private readonly loaderService: LoaderService,
@@ -34,11 +36,20 @@ export class PatientHistoryComponent implements OnInit, OnDestroy, AfterViewChec
         map(
           model => {
             this.patientSchedule = model;
-            console.log(this.patientSchedule);
+            console.log(model);
+            this.events = model.map(dataItem => (
+              <SchedulerEvent> {
+                id: dataItem.doctorId,
+                start: new Date(dataItem.date),
+                end: this.endDate(dataItem.date),
+                isAllDay: false,
+                title: dataItem.doctorFirstName + ' ' + dataItem.doctorLastName
+              }
+            ));
           }
         ),
         finalize(() => {
-          
+
           this.loaderService.hideLoader();
         }),
         takeUntil(this.unsubscribe$)
@@ -49,42 +60,19 @@ export class PatientHistoryComponent implements OnInit, OnDestroy, AfterViewChec
       )
   }
 
-  ngAfterViewChecked(): void {
-    this.scrollToElementById(this.closestDate(this.patientSchedule.slice(0)).id);
-  }
-
   public ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
 
-  scrollToElementById(id: string) {
-    const element = this.__getElementById(id);
-    this.scrollToElement(element);
+  private endDate(date: Date): Date{
+    let newDate = new Date(date);
+    newDate.setMinutes(newDate.getMinutes()+30);
+    return newDate;
   }
 
-  private __getElementById(id: string): HTMLElement {
-    const element = document.getElementById(id)!;
-    return element;
+  onClick(e: any){
+    console.log(e);
+    this.router.navigate(['/chat/by-patient', e.event.id]);
   }
-
-  scrollToElement(element: HTMLElement) {
-    element.scrollIntoView({block: "center", behavior: "smooth"});
-  }
-
-  private closestDate(schedule: DayWeekSchedule<PatientScheduleModel>[]): DayWeekSchedule<PatientScheduleModel> {
-    var today = new Date();
-    const closestDate = schedule.sort(function(a, b) {
-      var distancea = Math.abs(today.getTime() - new Date(a.todaySchedule[0].date).getTime());
-      var distanceb = Math.abs(today.getTime() - new Date(b.todaySchedule[0].date).getTime());
-      return distancea - distanceb; // sort a before b when the distance is smaller
-    });
-
-    return closestDate[0];
-  }
-
-  public ifTodayElement(date: Date): boolean{
-    return new Date().getDate() === new Date(date).getDate();
-  }
-
 }

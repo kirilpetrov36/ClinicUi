@@ -1,5 +1,5 @@
 <div *ngFor="let info of data">
-  <div style="color: #c7c5d7; margin-bottom: 5px">{{info.createdAt | date : 'M/d/yy'}}</div>
+  <div *ngIf="info.text" style="color: #c7c5d7; margin-bottom: 5px">{{info.createdAt | date : 'M/d/yy'}}</div>
   <div style="margin-left: 10px; margin-bottom: 5px">{{info.text}}</div>
 </div>
 

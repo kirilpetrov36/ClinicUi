@@ -1,4 +1,36 @@
-<div class="frame">
-  <input [formControl]="textControl">
-  <mat-icon (click)="addTime()">add_circle_outline</mat-icon>
-</div>
+<ng-template [ngIf]="isLoaded">
+  <div class="frame">
+    <div style="display: flex; flex-direction: row; align-items: center">
+      <input class="send-form" [formControl]="textControl">
+      <mat-icon style="margin-left: 1vw;" (click)="addTime()">add_circle_outline</mat-icon>
+    </div>
+
+    <div [formGroup]="form" style="margin-top: 1vw;" >
+      <div formArrayName="reminds">
+        <div *ngFor="let timeGroup of remindsArray.controls; index as i">
+          <mat-form-field style="margin-top: 1vw;" [formGroupName]="i">
+            <input matInput
+                   [format]="24"
+                   placeholder="Choose time"
+                   formControlName="time"
+                   [ngxMatTimepicker]="timePicker"
+                   readonly>
+            <mat-icon matSuffix
+                      (click)="timePicker.open()">
+              watch_later
+            </mat-icon>
+          </mat-form-field>
+          <ngx-mat-timepicker #timePicker [enableKeyboardInput]="false" ></ngx-mat-timepicker>
+          <span (click)="removeTime(i)" class="material-icons delete-time-button">delete</span>
+        </div>
+      </div>
+    </div>
+
+    <button mat-raised-button
+            (click)="submit()"
+            class="submit-button">
+      Create
+    </button>
+
+  </div>
+</ng-template>

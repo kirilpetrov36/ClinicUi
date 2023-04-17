@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { SharedModule } from 'src/app/shared/components/shared.module';
 import { ReminderComponent } from './reminder.component';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    SharedModule
+    SharedModule,
+    NgxMatTimepickerModule
   ]
 })
 export class ReminderModule { }

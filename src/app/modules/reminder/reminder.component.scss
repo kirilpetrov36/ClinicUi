@@ -1,14 +1,191 @@
+@import "/src/app/shared/styles/vars.scss";
+
 .frame{
   width: 50vw;
   height: 40vw;
   margin-left: auto;
   margin-right: auto;
-  padding-top: 10px;
-  //margin-top: 5vw;
+  padding-top: 5vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   /* From https://css.glass */
   background: rgba( 255, 255, 255, 0.65 );
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(10.6px);
   -webkit-backdrop-filter: blur(10.6px);
+
+  .send-form{
+    width: 30vw;
+    height: 2.2vw;
+    border: 1px rgb(239, 239, 239) solid ;
+    border-radius: 15px;
+    background-color: white;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    padding-left: 10px;
+
+    &:focus{
+      outline: none;
+    }
+  }
+
+  .send-form:focus {
+    outline: none;
+  }
+
+  .submit-button {
+    margin-top: 20px;
+    width: 200px;
+    height: 35px;
+    background: $main-color;
+    border-radius: 5px;
+    box-shadow: unset;
+    position: absolute;
+    bottom: 2vw;
+
+    &:hover{
+      background: #38c550;
+    }
+
+    .mat-button-wrapper {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 9px;
+      text-align: center;
+      color: $white;
+      font-family: $font-family;
+    }
+  }
 }
+
+::ng-deep {
+  .mat-select-panel {
+    background: white;
+
+    .mat-option {
+      color: black;
+
+      .mat-option-text {
+        color: black;
+        font-style: normal;
+        font-weight: normal;
+        font-size: 14px;
+      }
+    }
+
+    .mat-option.mat-selected:not(.mat-option-disabled) {
+      .mat-option-text {
+        color: green;
+      }
+    }
+  }
+
+  .mat-checkbox {
+
+    .mat-checkbox-frame {
+      border-width: 1px;
+      border-color: green;
+    }
+
+    &.mat-checkbox-checked {
+      .mat-checkbox-background {
+        background-color: green;
+
+        .mat-checkbox-checkmark-path {
+          stroke: white !important;
+        }
+      }
+    }
+
+    .mat-checkbox-label {
+      font-family: Arial, sans-serif;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 16px;
+      color: #9695A8;
+    }
+  }
+
+  .mat-pseudo-checkbox {
+    border-width: 1px !important;
+    border-color: green !important;
+
+    &-checked {
+      background-color: green !important;
+    }
+
+    &::after {
+      color: white;
+      top: 3.4px !important;
+      left: 2px !important;
+    }
+  }
+
+  .mat-form-field {
+    .mat-form-field-label {
+      color: #9695A8 !important;
+    }
+  }
+
+  .mat-datepicker-toggle  {
+    color: #9695A8 !important;
+  }
+
+  .mat-input-element:disabled {
+    color: #9695A8 !important;
+  }
+
+  .mat-form-field-wrapper {
+    padding: 0;
+  }
+
+  .mat-dialog-container {
+    background-color: white;
+    box-shadow: none;
+
+    .mat-toolbar.mat-primary {
+      background: #6666dc;
+      color: #fff;
+    }
+
+    .mat-mini-fab {
+      color: black;
+      font-weight: 300;
+    }
+
+    .mat-mini-fab.mat-primary {
+      background: #6666dc;
+      color: #fff;
+    }
+
+    .mat-button.mat-primary{
+      color: #6666dc;
+    }
+
+    .timepicker-dial__hint {
+      display: none !important;
+      height: 0px;
+    }
+  }
+
+  .mat-datepicker-content {
+    background-color: white;
+    color: black;
+  }
+
+  .mat-form-field-underline{
+    background-color: #969696 !important;
+  }
+
+  .mat-form-field.mat-focused .mat-form-field-ripple {
+    background-color: green;
+  }
+
+  .mat-input-element {
+    caret-color: green;
+  }
+}
+

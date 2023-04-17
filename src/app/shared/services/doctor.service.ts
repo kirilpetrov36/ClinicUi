@@ -17,8 +17,8 @@ export class DoctorService {
   ) {
   }
 
-  public getDoctorSchedule(): Observable<DayWeekSchedule<DoctorScheduleModel>[]> {
-    return this.http.get<DayWeekSchedule<DoctorScheduleModel>[]>(`${environment.apiUrl}/api/schedule/doctor`);
+  public getDoctorSchedule(): Observable<DoctorScheduleModel[]> {
+    return this.http.get<DoctorScheduleModel[]>(`${environment.apiUrl}/api/schedule/doctor`);
   }
 
   public getDoctorScheduleByDate(doctorId: string, date: string): Observable<string[]> {
