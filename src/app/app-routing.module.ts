@@ -6,6 +6,9 @@ import { ReminderModule } from './modules/reminder/reminder.module';
 
 const routes: Routes = [
   {
+    path: '', redirectTo: 'sign-in', pathMatch: 'full'
+  },
+  {
     path: 'sign-in',
     loadChildren: () => import('./modules/auth/sign-in/sign-in.module').then((m) => m.SignInModule)
   },
