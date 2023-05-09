@@ -35,6 +35,10 @@ const routes: Routes = [
   {
     path: 'reminder',
     loadChildren: () => import('./modules/reminder/reminder.module').then((m) => ReminderModule)
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./modules/admin/menu/menu.module').then((m) => m.MenuModule)
   }
 ];
 

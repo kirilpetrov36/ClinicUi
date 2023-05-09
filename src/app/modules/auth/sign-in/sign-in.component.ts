@@ -66,8 +66,11 @@ export class SignInComponent implements OnInit, OnDestroy {
               else if (!!data && !!data.token && data?.role?.toLowerCase() === 'patient'){
                 this.router.navigate(['/patient/menu', data?.userId]);
               }
+              else if (!!data && !!data.token && data?.role?.toLowerCase() === 'admin'){
+                this.router.navigate(['/admin/menu']);
+              }
             })
-          ).subscribe();    
+          ).subscribe();
         },
         () => this.snackBar.open('Wrong email or password!', 'OK', {
           duration: 20000,

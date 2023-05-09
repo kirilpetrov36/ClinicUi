@@ -6,6 +6,7 @@ import { takeUntil, map, finalize } from 'rxjs/operators';
 import { PatientInfoModel } from 'src/app/shared/models/patient-info.model';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { PatientInfoService } from 'src/app/shared/services/patient-info.service';
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-patient-menu',
@@ -18,11 +19,14 @@ export class PatientMenuComponent implements OnInit, OnDestroy {
   public patientInfoModel!: PatientInfoModel;
   public patientId!: string;
 
+  public isImageExist: boolean = false;
+
   constructor(
     private readonly loaderService: LoaderService,
     private readonly patientInfoService: PatientInfoService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly snackBar: MatSnackBar,
+    private sanitizer:DomSanitizer
   ) { }
 
   ngOnInit(): void {
@@ -33,8 +37,12 @@ export class PatientMenuComponent implements OnInit, OnDestroy {
       this.patientInfoService.getPatientInfo(params['id'])
       .pipe(
         map(
-          model => {     
+          model => {
             this.patientInfoModel = model;
+            //debugger;
+              if(model.imageUrl){
+                  this.isImageExist = true;
+              }
           }
         ),
         finalize(() => this.loaderService.hideLoader()),
@@ -50,6 +58,10 @@ export class PatientMenuComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
+  }
+
+  sanitize(url:string){
+      return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
 }

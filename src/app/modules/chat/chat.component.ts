@@ -8,6 +8,7 @@ import { AuthService } from 'src/app/shared/services/auth.service';
 import { ChatDataService } from 'src/app/shared/services/chat-date.service';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { SignalrService } from 'src/app/shared/services/signalr.service';
+import { DomSanitizer } from "@angular/platform-browser";
 
 @Component({
   selector: 'app-chat',
@@ -20,6 +21,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   public chatId!: string;
   public userInput: FormControl = this.formBuilder.control('');
   public userId!: string;
+  public isImageExist: boolean = false;
+  public companionImageUrl!: string;
+  public companionName!: string;
 
   constructor(
     private signalRService: SignalrService,
@@ -28,7 +32,8 @@ export class ChatComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private readonly authService: AuthService,
-    private readonly loaderService: LoaderService
+    private readonly loaderService: LoaderService,
+    private sanitizer:DomSanitizer
   ) { }
 
   private readonly unsubscribe$ = new Subject<void>();
@@ -38,6 +43,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     this.activatedRoute.params.pipe(takeUntil(this.unsubscribe$)).subscribe(params => {
       if (!!params['id']) {
+
         if (this.router.url.includes('by-doctor')) {
           this.authService.authData$.pipe(
             map((authData) => {
@@ -48,9 +54,14 @@ export class ChatComponent implements OnInit, OnDestroy {
                     takeUntil(this.unsubscribe$),
                     map(data => {
                       this.signalRService.connect(data.chatId, authData.token);
-                      this.chatId = data.chatId,
+                      this.chatId = data.chatId;
                       this.chatDataService.data = data.messages.reverse();
                       this.chatDataService.chatData$.next(this.chatDataService.data);
+                      if (data.patientImageUrl){
+                        this.isImageExist = true;
+                      }
+                      this.companionImageUrl = data.patientImageUrl;
+                      this.companionName = data.patientName;
                     }),
                     finalize(() => this.loaderService.hideLoader())
                   )
@@ -72,6 +83,11 @@ export class ChatComponent implements OnInit, OnDestroy {
                     this.chatId = data.chatId;
                     this.chatDataService.data = data.messages.reverse();
                     this.chatDataService.chatData$.next(this.chatDataService.data);
+                    if (data.doctorImageUrl){
+                      this.isImageExist = true;
+                    }
+                    this.companionImageUrl = data.doctorImageUrl;
+                    this.companionName = data.doctorName;
                   }),
                   finalize(() => this.loaderService.hideLoader())
                 )
@@ -93,6 +109,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   sendMessage(): void {
     this.signalRService.sendMessage(this.userInput.value, this.chatId);
     this.userInput.reset();
+  }
+
+  sanitize(url:string){
+    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 
 }

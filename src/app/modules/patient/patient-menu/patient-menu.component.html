@@ -1,6 +1,21 @@
-<app-sign-out></app-sign-out>
-<div class="frame">     
-    <div class="name" >{{patientInfoModel?.firstName}} {{patientInfoModel?.lastName}}</div>
+<app-sign-out style="position: relative; left: -5vw; bottom: -2vw;"></app-sign-out>
+<div class="frame">
+    <div style="display: flex; flex-direction: row; margin-top: 8vw;margin-bottom: 5vw;">
+        <div class="imagelogo">
+            <img class="avatar"
+                 [src]="sanitize('https://' + patientInfoModel.imageUrl)"
+                 alt="Place image title"
+                 *ngIf="isImageExist; else noImageFound">
+
+            <ng-template #noImageFound>
+                <img class="avatar"
+                     src="assets/avatar.jpg"
+                     alt="Fallbackimage">
+            </ng-template>
+        </div>
+
+        <div class="name" >{{patientInfoModel?.firstName}} {{patientInfoModel?.lastName}}</div>
+    </div>
 
     <div class="title" [routerLink]="['/patient/view', patientId]">See profile</div>
     <div class="title" [routerLink]="['/appointment/create', patientId]">Create an appoinment</div>

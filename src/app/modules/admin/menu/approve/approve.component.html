@@ -1,0 +1,21 @@
+<app-sign-out style="position: relative; left: -2vw;"></app-sign-out>
+<div class="frame">
+  <div class="doctor-name" *ngFor="let doctor of doctors">
+    {{doctor.firstName}} {{doctor.lastName}}
+    <div class="approved" *ngIf="doctor.isApproved; else notApproved">
+      <button mat-raised-button
+              (click)="approve(doctor, false)"
+              class="approve-button"
+              style="background: orange">
+        Refuse
+      </button>
+    </div>
+    <ng-template #notApproved>
+      <button mat-raised-button
+              (click)="approve(doctor, true)"
+              class="approve-button">
+        Approve
+      </button>
+    </ng-template>
+  </div>
+</div>

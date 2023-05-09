@@ -9,7 +9,7 @@
 
   .login-block {
     width: 46vw;
-    height: 33vw;
+    height: 40vw;
     background-color: $sign-in-background-color-main;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -41,6 +41,71 @@
       font-size: 14px;
       line-height: 16px;
       color: $font-color-second;
+    }
+
+    .imagelogo{
+      position: relative;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      overflow: hidden;
+      transition: background-color .2s ease-in-out;
+      margin-right: 20px;
+
+      &:hover {
+        cursor: pointer;
+        background-color: #111;
+      }
+    }
+    .imagelogo:hover avatar__content{
+      opacity: 1;
+    }
+    .imagelogo:hover .avatar {
+      opacity: .5;
+    }
+
+    .name {
+      font-size: 3vw;
+      font-style: normal;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-weight: 400;
+    }
+
+    .avatar {
+      vertical-align: middle;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      opacity: 1;
+      transition: opacity .2s ease-in-out;
+      object-fit: cover;
+    }
+
+    .view_avatar {
+      vertical-align: middle;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .avatar__content {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      opacity: 0;
+      transition: opacity .2s ease-in-out;
+    }
+
+    .avatar__content:hover {
+      opacity: .5;
     }
   }
 }
@@ -107,6 +172,13 @@
         color: $main-color;
       }
     }
+  }
+
+  .mat-form-field-hide-placeholder .mat-select-placeholder {
+    color: #d9d9d9;
+    -webkit-text-fill-color: transparent;
+    transition: none;
+    display: block;
   }
 
   .mat-select {

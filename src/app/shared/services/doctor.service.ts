@@ -28,12 +28,18 @@ export class DoctorService {
     return this.http.get<string[]>(`${environment.apiUrl}/api/schedule/doctor/date`, {params});
   }
 
-  public getAllDoctors() : Observable<UserModel[]> {
-    return this.http.get<UserModel[]>(`${environment.apiUrl}/api/user/doctors`)
+  public getAllDoctors(approved: boolean) : Observable<UserModel[]> {
+    return this.http.get<UserModel[]>(`${environment.apiUrl}/api/user/doctors/${approved}`)
   }
 
   public createSchedule(model: ScheduleModel): Observable<ScheduleModel> {
     return this.http.post<ScheduleModel>(`${environment.apiUrl}/api/schedule`, model)
+  }
+
+  public updateDoctorImage(file: File): Observable<void> {
+    const formData = new FormData()
+    formData.append('file', file);
+    return this.http.put<void>(`${environment.apiUrl}/api/user/image`, formData)
   }
 
 //   public getPatientInfo(id:string): Observable<PatientInfoModel> {

@@ -2,37 +2,64 @@
       (submit)="signUp()">
   <div class="container">
     <div class="login-block">
-        <span class="title">Create an account</span>
+      <span class="title">Create an account</span>
 
-        <input class="input"
-            placeholder="FirstName *"
-            required
-            formControlName="firstName"/>
+      <input type="file" id="file-input" accept="image/*" style="display: none" (change)="onFileChanged($event)">
+      <label for="file-input">
+        <div class="imagelogo">
+          <img class="avatar"
+               [src]="selectedFileUrl"
+               alt="Place image title"
+               *ngIf="selectedFileCreated; else noImageFound">
+          <ng-template #noImageFound>
+            <img class="avatar"
+                 src="assets/avatar.jpg"
+                 alt="Fallbackimage">
+          </ng-template>
+          <div class="avatar__content">
+            <mat-icon style="color:white; margin: 0">camera_alt</mat-icon>
+          </div>
+        </div>
+      </label>
 
-        <input class="input"
-            placeholder="LastName *"
-            required
-            formControlName="lastName"/>
+      <input class="input"
+        placeholder="FirstName *"
+        required
+        formControlName="firstName"/>
 
-        <input class="input"
-            placeholder="Email *"
-            required
-            formControlName="email"/>
+      <input class="input"
+        placeholder="LastName *"
+        required
+        formControlName="lastName"/>
 
-        <input class="input"
-            formControlName="password"
-            placeholder="Password *"
-            required
-            type="password"/>
+      <input class="input"
+        placeholder="Email *"
+        required
+        formControlName="email"/>
 
-        <mat-form-field appearance="outline">
-            <mat-label>Choose role</mat-label>
-            <mat-select [formControl]="rolesControl">
-                <mat-option *ngFor="let role of roles" [value]="role">
-                {{role}}
-                </mat-option>
-            </mat-select>
-        </mat-form-field>
+      <input class="input"
+        formControlName="password"
+        placeholder="Password *"
+        required
+        type="password"/>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Choose role</mat-label>
+        <mat-select [formControl]="rolesControl">
+          <mat-option *ngFor="let role of roles" [value]="role" (click)="this.chooseRole(role)">
+            {{role}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="margin-top: 35px">
+        <mat-label>Choose type</mat-label>
+        <mat-select [formControl]="typesControl">
+          <mat-option *ngFor="let type of types" [value]="type.id" >
+            {{type.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
         <button mat-raised-button
             type="submit"

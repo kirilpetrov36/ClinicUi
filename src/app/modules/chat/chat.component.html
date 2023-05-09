@@ -1,17 +1,36 @@
+<app-sign-out style="position: relative; left: -7vw; bottom: -5vw;"></app-sign-out>
+
 <div class="frame">
-    
+  <div class="name-container">
+    <div class="imagelogo">
+      <img class="avatar"
+           [src]="sanitize('https://' + companionImageUrl)"
+           alt="Place image title"
+           *ngIf="isImageExist; else noImageFound">
+
+      <ng-template #noImageFound>
+        <img class="avatar"
+             src="assets/avatar.jpg"
+             alt="Fallbackimage">
+      </ng-template>
+    </div>
+    <div class="name">
+      {{companionName}}
+    </div>
+  </div>
+
     <div class="messages-box">
         <div [ngClass]="{'message':userId === msg.userId, 'other-message':userId !== msg.userId}" *ngFor="let msg of chatDataService.chatData$ | async">
             {{msg.text}}
-            <span class="time">{{msg.updatedAt | date: 'H:mm'}}</span> 
+            <span class="time">{{msg.updatedAt | date: 'H:mm'}}</span>
         </div>
     </div>
-    
+
     <div class="input-button">
         <input placeholder="Message" class="send-form" [formControl]="userInput">
         <mat-icon class="send-button" (click)="sendMessage()">send</mat-icon>
     </div>
-    
+
 </div>
 
 

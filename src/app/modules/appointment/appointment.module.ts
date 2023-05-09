@@ -12,8 +12,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
+import {SharedModule} from "../../shared/components/shared.module";
 
- 
+
 const routes: Routes = [
   {
     path: 'create/:id',
@@ -25,21 +26,22 @@ const routes: Routes = [
   declarations: [
     AppointmentComponent
   ],
-  imports: [
-    CommonModule,
-    RouterModule.forChild(routes),
-    FormsModule,
-    ReactiveFormsModule,
-    MaterialModule,
-    MatDatepickerModule,
-    MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatCheckboxModule,
-    MatNativeDateModule
-  ]
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        FormsModule,
+        ReactiveFormsModule,
+        MaterialModule,
+        MatDatepickerModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatCheckboxModule,
+        MatNativeDateModule,
+        SharedModule
+    ]
 })
 export class AppointmentModule { }

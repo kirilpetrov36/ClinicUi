@@ -1,8 +1,33 @@
 <!--<mat-icon *ngIf="!isViewMode" class="back-arrow" [routerLink]="['/doctor/schedule']">keyboard_backspace</mat-icon>-->
 <!--<mat-icon *ngIf="isViewMode" class="back-arrow" [routerLink]="['/patient/menu/', patientId]">keyboard_backspace</mat-icon>-->
+<app-sign-out style="position: relative; left: -7vw; bottom: -10vw;"></app-sign-out>
 <form [formGroup]="form" (submit)="submit()">
     <div class="container">
         <div class="name-box">
+            <input *ngIf="isViewMode" type="file" id="file-input" accept="image/*" style="display: none" (change)="onFileChanged($event)">
+            <label for="file-input">
+               <div class="imagelogo">
+                   <img [ngClass]="!isViewMode ? 'view_avatar' : 'avatar'"
+                        [src]="sanitize('https://' + patientInfoModel.imageUrl)"
+                        alt="Place image title"
+                        *ngIf="(!isImageLoading && !selectedFileCreated); else noImageFound">
+                   <img class="avatar"
+                        [src]="selectedFileUrl"
+                        alt="Place image title"
+                        *ngIf="selectedFileCreated">
+                   <ng-template #noImageFound>
+                       <img *ngIf="!selectedFileCreated"
+                            [ngClass]="!isViewMode ? 'view_avatar' : 'avatar'"
+                            src="assets/avatar.jpg"
+                            alt="Fallbackimage">
+                   </ng-template>
+                   <div *ngIf="isViewMode" class="avatar__content">
+                       <mat-icon style="color:white; margin: 0">camera_alt</mat-icon>
+                   </div>
+               </div>
+            </label>
+
+
             <div class="name" >{{patientInfoModel?.firstName}} {{patientInfoModel?.lastName}}</div>
             <mat-icon *ngIf="!isViewMode" [routerLink]="['/chat/by-doctor', patientId]"> chat</mat-icon>
             <mat-icon *ngIf="!isViewMode" [routerLink]="['/reminder', patientId]">alarm</mat-icon>

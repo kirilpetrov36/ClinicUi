@@ -5,4 +5,5 @@ export interface DoctorScheduleModel{
     patientLastName : string;
     date: Date;
     time: string;
+    doctorImageUrl: string;
 }

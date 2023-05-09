@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -36,7 +36,7 @@ export class AppointmentComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loaderService.showLoader()
 
-    this.doctorService.getAllDoctors()
+    this.doctorService.getAllDoctors(true)
       .pipe(
         map(data => {
           this.doctors = data;

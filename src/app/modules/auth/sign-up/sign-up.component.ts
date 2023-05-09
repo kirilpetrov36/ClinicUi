@@ -7,6 +7,7 @@ import { finalize, map, takeUntil } from 'rxjs/operators';
 import { SignUpModel } from 'src/app/shared/models/sign-up.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { LoaderService } from 'src/app/shared/services/loader.service';
+import {DoctorTypeModel} from "../../../shared/models/doctor-type.model";
 
 @Component({
   selector: 'app-sign-up',
@@ -16,9 +17,13 @@ import { LoaderService } from 'src/app/shared/services/loader.service';
 export class SignUpComponent implements OnInit, OnDestroy {
 
   public form!: FormGroup;
+  public selectedFile!: File;
+  public selectedFileCreated: boolean = false;
+  public selectedFileUrl!: string | ArrayBuffer | null;
 
   private readonly unsubscribe$ = new Subject<void>();
-  public roles: string[] = ['Doctor', 'Patient']
+  public roles: string[] = ['Doctor', 'Patient'];
+  public types: DoctorTypeModel[] = [];
 
   constructor(
     private readonly authService: AuthService,
@@ -29,13 +34,24 @@ export class SignUpComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    this.loaderService.showLoader();
+    this.authService.getAllTypes()
+      .pipe(
+        takeUntil(this.unsubscribe$),
+        finalize(() => this.loaderService.hideLoader()),
+        map(model => this.types = model)
+      )
+      .subscribe()
     this.form = this.formBuilder.group({
       firstName: this.formBuilder.control('', [Validators.required]),
       lastName: this.formBuilder.control('', [Validators.required]),
       email: this.formBuilder.control('', [Validators.required]),
       password: this.formBuilder.control('', [Validators.required]),
-      role: this.formBuilder.control('', [Validators.required])
+      role: this.formBuilder.control('', [Validators.required]),
+      types: this.formBuilder.control('')
     });
+
+    (this.form.controls['types'] as FormControl).disable();
   }
 
   public ngOnDestroy(): void {
@@ -57,7 +73,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
       lastName: this.form.controls['lastName'].value,
       email: this.form.controls['email'].value,
       password: this.form.controls['password'].value,
-      role: this.form.controls['role'].value
+      role: this.form.controls['role'].value,
+      image: this.selectedFile
     }
 
     this.authService.register(signUpModel)
@@ -76,7 +93,7 @@ export class SignUpComponent implements OnInit, OnDestroy {
                 this.router.navigate(['/patient/menu', data?.userId]);
               }
             })
-          ).subscribe();    
+          ).subscribe();
         },
         () => this.snackBar.open('Wrong email or password!', 'OK')
       );
@@ -84,6 +101,30 @@ export class SignUpComponent implements OnInit, OnDestroy {
 
   get rolesControl(): FormControl {
     return this.form.get('role') as FormControl;
+  }
+
+  get typesControl(): FormControl {
+    return this.form.get('types') as FormControl;
+  }
+
+  public chooseRole(role: string){
+    if(role === 'Doctor'){
+      (this.form.controls['types'] as FormControl).enable();
+    }
+    else{
+      (this.form.controls['types'] as FormControl).disable();
+    }
+  }
+
+  public onFileChanged(event: any): void {
+    this.selectedFile = event.target.files[0];
+    this.selectedFileCreated = true;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(event.target.files[0]);
+    reader.onload = (_event) => {
+      this.selectedFileUrl = reader.result;
+    }
   }
 
 }

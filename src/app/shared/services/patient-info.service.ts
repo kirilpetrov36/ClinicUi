@@ -31,7 +31,13 @@ export class PatientInfoService {
   }
 
   public updatePatientInfo(model: updatePatientInfoModel): Observable<PatientInfoModel> {
-    return this.http.put<PatientInfoModel>(`${environment.apiUrl}/api/patientInfo`, model);
+    const formData = new FormData();
+    formData.append('diagnosis', model.diagnosis);
+    formData.append('analyses', model.analyses);
+    formData.append('treatment', model.treatment);
+    formData.append('patientId', model.patientId);
+    formData.append('image', model.image);
+    return this.http.put<PatientInfoModel>(`${environment.apiUrl}/api/patientInfo`, formData);
   }
 
   public getPatientSchedule(): Observable<PatientScheduleModel[]> {

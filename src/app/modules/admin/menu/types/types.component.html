@@ -1,0 +1,20 @@
+<app-sign-out style="position: relative; left: -2vw;"></app-sign-out>
+<div class="frame">
+  <form [formGroup]="form" style="display: flex; flex-direction: column; align-items: center; justify-content: center" (ngSubmit)="submit()">
+    <div class="inputs-block" formArrayName="types">
+      <div class="add" (click)="addType()">+</div>
+      <div *ngFor="let control of types.controls; index as i" [formGroupName]="i">
+        <div style="display: flex; flex-direction: row; align-items: center">
+          <input class="input" formControlName="name"/>
+          <mat-icon class="delete" (click)="remove(i)">delete</mat-icon>
+        </div>
+      </div>
+    </div>
+
+    <button mat-raised-button
+            type="submit"
+            class="approve-button">
+      Save
+    </button>
+  </form>
+</div>

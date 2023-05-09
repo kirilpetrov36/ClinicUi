@@ -10,11 +10,7 @@ import { LoaderService } from 'src/app/shared/services/loader.service';
 import { PatientInfoService } from 'src/app/shared/services/patient-info.service';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { PatientSomeInfoModel } from "../../shared/models/patient-some-info.model";
-
-export interface DialogData {
-  animal: string;
-  name: string;
-}
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-patient',
@@ -28,6 +24,10 @@ export class PatientComponent implements OnInit , OnDestroy{
   public patientInfoModel!: PatientInfoModel;
   public patientId!: string;
   public isViewMode: boolean = false;
+  public isImageLoading: boolean = true;
+  public selectedFile!: File;
+  public selectedFileCreated: boolean = false;
+  public selectedFileUrl!: string | ArrayBuffer | null;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -37,7 +37,8 @@ export class PatientComponent implements OnInit , OnDestroy{
     private readonly router: Router,
     private readonly snackBar: MatSnackBar,
     private readonly cd: ChangeDetectorRef,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private sanitizer:DomSanitizer
   ) { }
 
   public ngOnInit(): void {
@@ -47,22 +48,28 @@ export class PatientComponent implements OnInit , OnDestroy{
     this.activatedRoute.params.pipe(takeUntil(this.unsubscribe$)).subscribe(params => {
       this.patientId = params['id'];
       this.patientInfoService.getPatientInfo(params['id'])
-      .pipe(
-        map(
-          model => {
-            this.patientInfoModel = model;
-          }
-        ),
-        finalize(() => this.loaderService.hideLoader()),
-        takeUntil(this.unsubscribe$)
-      )
-      .subscribe(
-        () => {
-          this.fillForm();
-          this.cd.detectChanges();
-        },
-        () => this.snackBar.open('Something went wrong!', 'OK')
-      )
+        .pipe(
+          map(
+            model => {
+              this.patientInfoModel = model;
+              if(model.imageUrl){
+                  this.isImageLoading = false;
+              }
+            }
+          ),
+          finalize(() => {
+            this.loaderService.hideLoader();
+          }),
+          takeUntil(this.unsubscribe$)
+        )
+        .subscribe(
+          () => {
+            this.fillForm();
+            this.cd.detectChanges();
+          },
+          () => this.snackBar.open('Something went wrong!', 'OK')
+        )
+
     });
 
     if (this.router.url.includes('view')) {
@@ -97,7 +104,8 @@ export class PatientComponent implements OnInit , OnDestroy{
       diagnosis: this.form.controls['diagnosis'].value,
       analyses: this.form.controls['analyses'].value,
       treatment: this.form.controls['treatment'].value,
-      patientId: this.patientId
+      patientId: this.patientId,
+      image: this.selectedFile
     }
 
     this.patientInfoService.updatePatientInfo(updatePatientInfoModel)
@@ -158,6 +166,23 @@ export class PatientComponent implements OnInit , OnDestroy{
         })
       )
       .subscribe();
+  }
+
+  public onFileChanged(event: any): void {
+    this.selectedFile = event.target.files[0];
+    this.selectedFileCreated = true;
+
+      const reader = new FileReader();
+      reader.readAsDataURL(event.target.files[0]);
+      reader.onload = (_event) => {
+          this.selectedFileUrl = reader.result;
+      }
+
+      this.submit();
+  }
+
+  sanitize(url:string){
+      return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 }
 

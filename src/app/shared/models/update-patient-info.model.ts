@@ -3,4 +3,5 @@ export interface updatePatientInfoModel{
     analyses : string;
     treatment : string;
     patientId: string;
+    image: File;
 }

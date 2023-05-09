@@ -1,4 +1,4 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {Router} from '@angular/router';
 import {BehaviorSubject, Observable} from 'rxjs';
@@ -6,6 +6,7 @@ import {map} from 'rxjs/operators';
 import {environment} from 'src/environments/environment';
 import {JwtPayload} from '../models/jwt-payload';
 import { SignUpModel } from '../models/sign-up.model';
+import {DoctorTypeModel} from "../models/doctor-type.model";
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,14 @@ export class AuthService {
   }
 
   public register(signUpModel: SignUpModel): Observable<void> {
-    return this.http.post<JwtPayload>(`${environment.apiUrl}/api/auth/register`, signUpModel)
+    const formData = new FormData();
+    formData.append('email', signUpModel.email);
+    formData.append('password', signUpModel.password);
+    formData.append('firstName', signUpModel.firstName);
+    formData.append('lastName', signUpModel.lastName);
+    formData.append('role', signUpModel.role);
+    formData.append('image', signUpModel.image);
+    return this.http.post<JwtPayload>(`${environment.apiUrl}/api/auth/register`, formData)
       .pipe(map(response => {
         localStorage.setItem(this.authDataKey, JSON.stringify(response));
 
@@ -79,4 +87,23 @@ export class AuthService {
   public getAuthData(): JwtPayload {
     return this.authDataSubject.value;
   }
+
+  public approveDoctor(doctorId: string, value: boolean): Observable<void>{
+    return this.http.get<void>(`${environment.apiUrl}/api/user/approve/${doctorId}/${value}`);
+  }
+
+  public addDoctorType(name: string): Observable<void>{
+    let params = new HttpParams()
+    params = params.append('name', name);
+    return this.http.post<void>(`${environment.apiUrl}/api/user/add-doctor-type`, { params });
+  }
+
+  public updateTypes(types: DoctorTypeModel[]): Observable<void>{
+    return this.http.put<void>(`${environment.apiUrl}/api/user/update-types`, types);
+  }
+
+  public getAllTypes(): Observable<DoctorTypeModel[]>{
+    return this.http.get<DoctorTypeModel[]>(`${environment.apiUrl}/api/user/types`);
+  }
+
 }

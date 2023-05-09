@@ -4,4 +4,5 @@ export interface PatientInfoModel {
     treatment : string;
     firstName : string;
     lastName : string;
+    imageUrl: string;
 }
