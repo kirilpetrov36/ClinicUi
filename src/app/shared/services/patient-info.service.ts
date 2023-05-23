@@ -2,7 +2,6 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { DayWeekSchedule } from '../models/dayweek-schedule.model';
 import { PatientInfoModel } from '../models/patient-info.model';
 import { PatientScheduleModel } from '../models/patient-schedule.model';
 import { updatePatientInfoModel } from '../models/update-patient-info.model';

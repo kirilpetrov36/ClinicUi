@@ -1,3 +1,6 @@
+<mat-icon class="back-arrow" (click)="location.back()">keyboard_backspace</mat-icon>
+<mat-icon class="back-arrow" [routerLink]="['/patient/menu/', authService.getAuthData().userId]">keyboard_backspace</mat-icon>
+
 <app-sign-out style="position: relative; left: 4vw; bottom: -2vw;"></app-sign-out>
 
 <kendo-scheduler [kendoSchedulerBinding]="events"

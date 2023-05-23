@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {Form, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -20,10 +20,12 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public selectedFile!: File;
   public selectedFileCreated: boolean = false;
   public selectedFileUrl!: string | ArrayBuffer | null;
+  public imageTouched: boolean = false;
 
   private readonly unsubscribe$ = new Subject<void>();
   public roles: string[] = ['Doctor', 'Patient'];
   public types: DoctorTypeModel[] = [];
+  public typesEnabled: boolean = false;
 
   constructor(
     private readonly authService: AuthService,
@@ -43,12 +45,13 @@ export class SignUpComponent implements OnInit, OnDestroy {
       )
       .subscribe()
     this.form = this.formBuilder.group({
-      firstName: this.formBuilder.control('', [Validators.required]),
-      lastName: this.formBuilder.control('', [Validators.required]),
-      email: this.formBuilder.control('', [Validators.required]),
-      password: this.formBuilder.control('', [Validators.required]),
+      firstName: this.formBuilder.control('', [Validators.required, Validators.minLength(5)]),
+      lastName: this.formBuilder.control('', [Validators.required, Validators.minLength(5)]),
+      email: this.formBuilder.control('', [Validators.required, Validators.email]),
+      password: this.formBuilder.control('', [Validators.required, Validators.minLength(8)]),
       role: this.formBuilder.control('', [Validators.required]),
-      types: this.formBuilder.control('')
+      types: this.formBuilder.control(''),
+      image: this.formBuilder.control('', [Validators.required])
     });
 
     (this.form.controls['types'] as FormControl).disable();
@@ -62,7 +65,6 @@ export class SignUpComponent implements OnInit, OnDestroy {
   public signUp(): void {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-
       return;
     }
 
@@ -74,7 +76,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
       email: this.form.controls['email'].value,
       password: this.form.controls['password'].value,
       role: this.form.controls['role'].value,
-      image: this.selectedFile
+      image: this.selectedFile,
+      doctorTypeId: this.form.controls['types'].value ? this.form.controls['types'].value : ""
     }
 
     this.authService.register(signUpModel)
@@ -95,8 +98,24 @@ export class SignUpComponent implements OnInit, OnDestroy {
             })
           ).subscribe();
         },
-        () => this.snackBar.open('Wrong email or password!', 'OK')
+        error => this.snackBar.open(error.error, 'OK')
       );
+  }
+
+  get firstNameControl(): FormControl {
+    return this.form.get('firstName') as FormControl;
+  }
+
+  get lastNameControl(): FormControl {
+    return this.form.get('lastName') as FormControl;
+  }
+
+  get emailControl(): FormControl {
+    return this.form.get('email') as FormControl;
+  }
+
+  get passwordControl(): FormControl {
+    return this.form.get('password') as FormControl;
   }
 
   get rolesControl(): FormControl {
@@ -107,12 +126,19 @@ export class SignUpComponent implements OnInit, OnDestroy {
     return this.form.get('types') as FormControl;
   }
 
+  get imageControl(): FormControl {
+    return this.form.get('image') as FormControl;
+  }
+
   public chooseRole(role: string){
     if(role === 'Doctor'){
       (this.form.controls['types'] as FormControl).enable();
+      this.typesEnabled = true;
     }
     else{
       (this.form.controls['types'] as FormControl).disable();
+      this.typesEnabled = false;
+      this.form.controls['types'].reset();
     }
   }
 
@@ -125,6 +151,10 @@ export class SignUpComponent implements OnInit, OnDestroy {
     reader.onload = (_event) => {
       this.selectedFileUrl = reader.result;
     }
+  }
+
+  public touchImage(): void {
+    this.imageTouched = true;
   }
 
 }

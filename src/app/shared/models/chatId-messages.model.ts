@@ -7,4 +7,5 @@ export interface ChatIdMessages{
     patientImageUrl: string;
     doctorName: string;
     patientName: string;
+    isChatExisted: boolean;
 }

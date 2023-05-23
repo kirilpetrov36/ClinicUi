@@ -4,15 +4,21 @@
     <div class="login-block">
       <span class="title">Create an account</span>
 
-      <input type="file" id="file-input" accept="image/*" style="display: none" (change)="onFileChanged($event)">
-      <label for="file-input">
+      <input required
+             formControlName="image"
+             type="file"
+             id="file-input"
+             accept="image/*"
+             style="display: none"
+             (change)="onFileChanged($event)">
+      <label (click)="touchImage()" for="file-input">
         <div class="imagelogo">
-          <img class="avatar"
+          <img [ngClass]="((imageTouched || imageControl.dirty) && imageControl.invalid && !selectedFileCreated) ? 'avatar_invalid' : 'avatar'"
                [src]="selectedFileUrl"
                alt="Place image title"
                *ngIf="selectedFileCreated; else noImageFound">
           <ng-template #noImageFound>
-            <img class="avatar"
+            <img [ngClass]="((imageTouched || imageControl.dirty) && imageControl.invalid && !selectedFileCreated) ? 'avatar_invalid' : 'avatar'"
                  src="assets/avatar.jpg"
                  alt="Fallbackimage">
           </ng-template>
@@ -21,45 +27,68 @@
           </div>
         </div>
       </label>
+      <span style="color: #9695A8; font-size: 14px">Please select an image</span>
 
       <input class="input"
         placeholder="FirstName *"
-        required
+        required [class.invalid-input]="(firstNameControl.touched || firstNameControl.dirty) && firstNameControl.invalid"
         formControlName="firstName"/>
+      <div *ngIf="(firstNameControl.touched || firstNameControl.dirty) && firstNameControl.invalid">
+        <mat-error *ngIf="firstNameControl.hasError('required')">FirstName is required</mat-error>
+        <mat-error *ngIf="firstNameControl.hasError('minlength')">Min length 5</mat-error>
+      </div>
 
       <input class="input"
         placeholder="LastName *"
-        required
+        required [class.invalid-input]="(lastNameControl.touched || lastNameControl.dirty) && lastNameControl.invalid"
         formControlName="lastName"/>
+      <div *ngIf="(lastNameControl.touched || lastNameControl.dirty) && lastNameControl.invalid">
+        <mat-error *ngIf="lastNameControl.hasError('required')">LastName is required</mat-error>
+        <mat-error *ngIf="lastNameControl.hasError('minlength')">Min length 5</mat-error>
+      </div>
 
       <input class="input"
         placeholder="Email *"
-        required
+        required [class.invalid-input]="(emailControl.touched || emailControl.dirty) && emailControl.invalid"
         formControlName="email"/>
+      <div *ngIf="(emailControl.touched || emailControl.dirty) && emailControl.invalid">
+        <mat-error *ngIf="emailControl.hasError('required')">Email is required</mat-error>
+      </div>
 
       <input class="input"
         formControlName="password"
         placeholder="Password *"
-        required
+        required [class.invalid-input]="(passwordControl.touched || passwordControl.dirty) && passwordControl.invalid"
         type="password"/>
+      <div *ngIf="(passwordControl.touched || passwordControl.dirty) && passwordControl.invalid">
+        <mat-error *ngIf="passwordControl.hasError('required')">Password is required</mat-error>
+        <mat-error *ngIf="passwordControl.hasError('minlength')">Min length 8</mat-error>
+      </div>
 
       <mat-form-field appearance="outline">
         <mat-label>Choose role</mat-label>
-        <mat-select [formControl]="rolesControl">
+        <mat-select [formControl]="rolesControl"
+                    matInput required>
           <mat-option *ngFor="let role of roles" [value]="role" (click)="this.chooseRole(role)">
             {{role}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div *ngIf="(rolesControl.touched || rolesControl.dirty) && rolesControl.invalid">
+        <mat-error style="margin-top: 25px" *ngIf="rolesControl.hasError('required')">Choose role</mat-error>
+      </div>
 
       <mat-form-field appearance="outline" style="margin-top: 35px">
         <mat-label>Choose type</mat-label>
-        <mat-select [formControl]="typesControl">
+        <mat-select [formControl]="typesControl"  matInput required>
           <mat-option *ngFor="let type of types" [value]="type.id" >
             {{type.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <div *ngIf="(typesControl.touched || typesControl.dirty) && typesControl.invalid && typesEnabled">
+        <mat-error style="margin-top: 25px" *ngIf="typesControl.hasError('required')">Choose type</mat-error>
+      </div>
 
         <button mat-raised-button
             type="submit"

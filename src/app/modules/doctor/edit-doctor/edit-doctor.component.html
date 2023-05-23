@@ -1,0 +1,56 @@
+<mat-icon class="back-arrow" (click)="location.back()">keyboard_backspace</mat-icon>
+
+<div class="frame" *ngIf="isLoaded">
+
+  <input type="file" id="file-input" [formControl]="fileControl" accept="image/*" style="display: none" (change)="onFileChanged($event)">
+  <label for="file-input">
+    <div [ngClass]="isViewMode ? 'simple-imagelogo' : 'imagelogo'">
+      <img class="avatar"
+           [src]="sanitize('https://' + imageUrl)"
+           alt="Place image title"
+           *ngIf="(isImageExist && !selectedFileCreated); else noImageFound">
+      <img class="avatar"
+           [src]="selectedFileUrl"
+           alt="Place image title"
+           *ngIf="selectedFileCreated">
+      <ng-template #noImageFound>
+        <img *ngIf="!selectedFileCreated"
+             class="avatar"
+             src="assets/avatar.jpg"
+             alt="Fallbackimage">
+      </ng-template>
+      <div class="avatar__content">
+        <mat-icon style="color:white; margin: 0">camera_alt</mat-icon>
+      </div>
+    </div>
+  </label>
+
+  <div style="margin-bottom: 1vw; margin-top: 0.4vw; font-size: 1.4vw">{{doctorInfo.doctorType}}</div>
+
+  <input class="input"
+         [formControl]="firstNameControl"
+         [class.invalid-input]="(firstNameControl.touched || firstNameControl.dirty) && firstNameControl.invalid"/>
+  <div *ngIf="(firstNameControl.touched || firstNameControl.dirty) && firstNameControl.invalid">
+    <mat-error *ngIf="firstNameControl.hasError('required')">FirstName is required</mat-error>
+    <mat-error *ngIf="firstNameControl.hasError('minlength')">Min length 5</mat-error>
+  </div>
+  <input class="input"
+         [formControl]="lastNameControl"
+         [class.invalid-input]="(lastNameControl.touched || lastNameControl.dirty) && lastNameControl.invalid"/>
+  <div *ngIf="(lastNameControl.touched || lastNameControl.dirty) && lastNameControl.invalid">
+    <mat-error *ngIf="lastNameControl.hasError('required')">LastName is required</mat-error>
+    <mat-error *ngIf="lastNameControl.hasError('minlength')">Min length 5</mat-error>
+  </div>
+  <input class="input"
+         [formControl]="emailControl"
+         [class.invalid-input]="(emailControl.touched || emailControl.dirty) && emailControl.invalid"/>
+  <div *ngIf="(emailControl.touched || emailControl.dirty) && emailControl.invalid">
+    <mat-error *ngIf="emailControl.hasError('required')">Email is required</mat-error>
+  </div>
+
+  <button *ngIf="!isViewMode"mat-raised-button class="submit-button" (click)="save()">
+    Save
+  </button>
+</div>
+
+

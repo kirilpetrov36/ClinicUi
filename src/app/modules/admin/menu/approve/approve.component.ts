@@ -5,6 +5,7 @@ import {Subject} from "rxjs";
 import {finalize, map, takeUntil} from "rxjs/operators";
 import {LoaderService} from "../../../../shared/services/loader.service";
 import {AuthService} from "../../../../shared/services/auth.service";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-approve',
@@ -19,7 +20,8 @@ export class ApproveComponent implements OnInit {
   constructor(
     private readonly doctorService: DoctorService,
     private readonly loaderService: LoaderService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    public location: Location
   ) { }
 
   ngOnInit(): void {

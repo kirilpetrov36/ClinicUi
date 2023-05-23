@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MenuComponent } from './menu.component';
 import {RouterModule, Routes} from "@angular/router";
 import { ApproveComponent } from './approve/approve.component';
-import { TypesComponent } from './types/types.component';
+import {TypesComponent, TypesUpdateComponent} from './types/types.component';
 import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "../../../shared/modules/material.module";
@@ -25,7 +25,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [MenuComponent, ApproveComponent, TypesComponent],
+  declarations: [MenuComponent, ApproveComponent, TypesComponent, TypesUpdateComponent],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),

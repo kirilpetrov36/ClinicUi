@@ -62,6 +62,7 @@ export class SignInComponent implements OnInit, OnDestroy {
             map((data) => {
               if (!!data && !!data.token && data?.role?.toLowerCase() === 'doctor'){
                 this.router.navigate(['/doctor/schedule'])
+
               }
               else if (!!data && !!data.token && data?.role?.toLowerCase() === 'patient'){
                 this.router.navigate(['/patient/menu', data?.userId]);
@@ -72,9 +73,12 @@ export class SignInComponent implements OnInit, OnDestroy {
             })
           ).subscribe();
         },
-        () => this.snackBar.open('Wrong email or password!', 'OK', {
-          duration: 20000,
-        })
+        error => {
+          console.log(error);
+          this.snackBar.open(error.error, 'OK', {
+            duration: 2000,
+          });
+        }
       );
   }
 

@@ -1,21 +1,24 @@
+<mat-icon class="back-arrow" (click)="location.back()">keyboard_backspace</mat-icon>
 <app-sign-out style="position: relative; left: -2vw;"></app-sign-out>
 <div class="frame">
-  <div class="doctor-name" *ngFor="let doctor of doctors">
-    {{doctor.firstName}} {{doctor.lastName}}
+  <div class="doctor-name" *ngFor="let doctor of doctors; index as i">
+    {{i+1 + ') '}}{{doctor.firstName}} {{doctor.lastName}}
     <div class="approved" *ngIf="doctor.isApproved; else notApproved">
       <button mat-raised-button
               (click)="approve(doctor, false)"
               class="approve-button"
-              style="background: orange">
+              style="background: red">
         Refuse
       </button>
+      <mat-icon style="margin-left: 15px">thumb_down</mat-icon>
     </div>
     <ng-template #notApproved>
-      <button mat-raised-button
-              (click)="approve(doctor, true)"
-              class="approve-button">
-        Approve
-      </button>
+        <button mat-raised-button
+                (click)="approve(doctor, true)"
+                class="approve-button">
+          Approve
+        </button>
+        <mat-icon style="margin-left: 15px">thumb_up</mat-icon>
     </ng-template>
   </div>
 </div>

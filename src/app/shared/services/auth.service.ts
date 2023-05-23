@@ -49,6 +49,7 @@ export class AuthService {
     formData.append('lastName', signUpModel.lastName);
     formData.append('role', signUpModel.role);
     formData.append('image', signUpModel.image);
+    formData.append('doctorTypeId', signUpModel.doctorTypeId);
     return this.http.post<JwtPayload>(`${environment.apiUrl}/api/auth/register`, formData)
       .pipe(map(response => {
         localStorage.setItem(this.authDataKey, JSON.stringify(response));
@@ -104,6 +105,10 @@ export class AuthService {
 
   public getAllTypes(): Observable<DoctorTypeModel[]>{
     return this.http.get<DoctorTypeModel[]>(`${environment.apiUrl}/api/user/types`);
+  }
+
+  public getAllChats(): Observable<string[]>{
+    return this.http.get<string[]>(`${environment.apiUrl}/api/user/chat-ids`)
   }
 
 }

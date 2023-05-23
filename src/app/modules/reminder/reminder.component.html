@@ -1,15 +1,21 @@
+<mat-icon class="back-arrow" (click)="location.back()">keyboard_backspace</mat-icon>
 <app-sign-out style="position: relative; left: -7vw; bottom: -5vw;"></app-sign-out>
 <ng-template [ngIf]="isLoaded">
   <div class="frame">
+    <div style="width: 32vw; margin-bottom: 1vw; color: gray">
+      Here you can create a reminder for the patient. You need to type the reminder text into the
+      input below and click add button to create reminder times. And then everyday patient
+      will receive an email letter with a reminder text at the times you have chosen.
+    </div>
     <div style="display: flex; flex-direction: row; align-items: center">
-      <input class="send-form" [formControl]="textControl">
-      <mat-icon style="margin-left: 1vw;" (click)="addTime()">add_circle_outline</mat-icon>
+      <input class="send-form" placeholder="Type reminder text" [formControl]="textControl">
+
     </div>
 
     <div [formGroup]="form" style="margin-top: 1vw;" >
       <div formArrayName="reminds">
         <div *ngFor="let timeGroup of remindsArray.controls; index as i">
-          <mat-form-field style="margin-top: 1vw;" [formGroupName]="i">
+          <mat-form-field style="margin-top: 1vw;margin-left: 3.6vw" [formGroupName]="i">
             <input matInput
                    [format]="24"
                    placeholder="Choose time"
@@ -23,6 +29,7 @@
           </mat-form-field>
           <ngx-mat-timepicker #timePicker [enableKeyboardInput]="false" ></ngx-mat-timepicker>
           <span (click)="removeTime(i)" class="material-icons delete-time-button">delete</span>
+          <mat-icon *ngIf="i == 0" style="margin-left: 1vw;" (click)="addTime()">add_circle_outline</mat-icon>
         </div>
       </div>
     </div>
@@ -30,7 +37,7 @@
     <button mat-raised-button
             (click)="submit()"
             class="submit-button">
-      Create
+      Save
     </button>
 
   </div>

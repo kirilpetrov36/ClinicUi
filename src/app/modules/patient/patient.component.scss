@@ -1,7 +1,7 @@
 @import "/src/app/shared/styles/vars.scss";
 
 .container{
-    width: 50vw;
+    width: 40vw;
     height: 95vh;
     margin-left: auto;
     margin-right: auto;
@@ -126,7 +126,7 @@
 
     .input {
         align-self: flex-start;
-        width: 40vw;
+        width: 30vw;
         height: 5vw;
         border-radius: 6px;
         border: 1px solid $gray;
@@ -174,13 +174,13 @@
     }
 }
 
-.back-arrow {
-    position: absolute;
-    left: 4vw;
-    top: 4vw;
-
-    &:hover{
-        cursor: pointer;
-        color:rgb(187, 187, 187)
-    }
-}
+//.back-arrow {
+//    position: absolute;
+//    left: 10vw;
+//    top: 4vw;
+//
+//    &:hover{
+//        cursor: pointer;
+//        color:rgb(187, 187, 187)
+//    }
+//}

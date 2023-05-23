@@ -9,6 +9,7 @@ import { ReadUserReminderModel } from "../../shared/models/read-user-reminder.mo
 import { CreateUserReminderModel } from "../../shared/models/create-user-reminder.model";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { UpdateUserRemindersModel } from "../../shared/models/update-user-reminder.model";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-reminder',
@@ -33,7 +34,8 @@ export class ReminderComponent implements OnInit, OnDestroy {
     private readonly activatedRoute: ActivatedRoute,
     private readonly router: Router,
     private readonly reminderService: ReminderService,
-    private readonly matSnackbar: MatSnackBar
+    private readonly matSnackbar: MatSnackBar,
+    public location: Location
   ) { }
 
   ngOnInit(): void {
@@ -58,7 +60,23 @@ export class ReminderComponent implements OnInit, OnDestroy {
               if(!data){
                 this.createReminder = true;
               }
-              this.fillForm(data)
+              if(data?.times.length > 0){
+                this.fillForm(data)
+              }
+              else{
+                // const dates: string[] = [""];
+                // const firstTime: CreateUserReminderModel = {
+                //   userId: this.patientId,
+                //   text: this.textControl.value,
+                //   remindTimes: dates
+                // }
+                this.remindsArray.push(
+                  this.formBuilder.group({
+                    time: this.formBuilder.control('')
+                  })
+                );
+              }
+
             })
           )
           .subscribe(() => {
@@ -127,7 +145,10 @@ export class ReminderComponent implements OnInit, OnDestroy {
         (this.remindsArray.get(index.toString()) as FormGroup).controls['time'].patchValue(value.toString().slice(0, 5))
       });
 
-      this.textControl.patchValue(data.text);
+      if(data.text){
+        this.textControl.patchValue(data.text);
+      }
+
     }
   }
 

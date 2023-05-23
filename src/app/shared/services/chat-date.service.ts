@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import { MessageModel } from '../models/message.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
@@ -9,8 +9,9 @@ import { ChatIdMessages } from '../models/chatId-messages.model';
   providedIn: 'root'
 })
 export class ChatDataService {
-    public chatData$: BehaviorSubject<MessageModel[]> = new BehaviorSubject<MessageModel[]>([]);
+    public chatData$: Subject<MessageModel[]> = new Subject<MessageModel[]>();
     public data: MessageModel[] = [];
+    public newMessage!: MessageModel;
 
     constructor(
         private http: HttpClient

@@ -7,17 +7,29 @@ import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { DoctorScheduleComponent } from './doctor-schedule/doctor-schedule.component';
 
 import { SchedulerModule } from '@progress/kendo-angular-scheduler';
+import { DoctorTableComponent } from './doctor-table/doctor-table.component';
+import { EditDoctorComponent } from './edit-doctor/edit-doctor.component';
 
 const routes: Routes = [
   {
     path: 'schedule',
     component: DoctorScheduleComponent
+  },
+  {
+    path: 'table',
+    component: DoctorTableComponent
+  },
+  {
+    path: 'edit/:id',
+    component: EditDoctorComponent
   }
 ];
 
 @NgModule({
   declarations: [
-    DoctorScheduleComponent
+    DoctorScheduleComponent,
+    DoctorTableComponent,
+    EditDoctorComponent
   ],
   imports: [
     CommonModule,

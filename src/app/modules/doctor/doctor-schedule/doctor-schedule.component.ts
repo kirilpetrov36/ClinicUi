@@ -8,6 +8,7 @@ import { DoctorService } from 'src/app/shared/services/doctor.service';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { SchedulerEvent } from "@progress/kendo-angular-scheduler";
 import {DomSanitizer} from "@angular/platform-browser";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-doctor-schedule',
@@ -20,32 +21,23 @@ export class DoctorScheduleComponent implements OnInit, OnDestroy {
   private readonly unsubscribe$ = new Subject<void>();
   public selectedDate: Date = new Date();
   public events!: SchedulerEvent[];
-  public isImageExist: boolean = false;
-  public imageUrl!: string;
-  public selectedFile!: File;
-  public selectedFileCreated: boolean = false;
-  public selectedFileUrl!: string | ArrayBuffer | null;
 
   constructor(
     private readonly doctorService: DoctorService,
     private readonly loaderService: LoaderService,
     public readonly router: Router,
     private readonly snackBar: MatSnackBar,
-    private sanitizer:DomSanitizer
+    private sanitizer: DomSanitizer,
+    public location: Location
   ) { }
 
   ngOnInit(): void {
-
     this.loaderService.showLoader();
 
     this.doctorService.getDoctorSchedule()
       .pipe(
         map(
           model => {
-            if(model[0].doctorImageUrl){
-              this.isImageExist = true;
-              this.imageUrl = model[0].doctorImageUrl;
-            }
             this.doctorSchedule = model;
             this.events = model.map(dataItem => (
               <SchedulerEvent> {
@@ -58,7 +50,9 @@ export class DoctorScheduleComponent implements OnInit, OnDestroy {
             ));
           }
         ),
-        finalize(() => this.loaderService.hideLoader()),
+        finalize(() => {
+          this.loaderService.hideLoader();
+        }),
         takeUntil(this.unsubscribe$)
       )
       .subscribe(
@@ -77,35 +71,8 @@ export class DoctorScheduleComponent implements OnInit, OnDestroy {
     newDate.setMinutes(newDate.getMinutes()+30);
     return newDate;
   }
+
   onClick(e: any){
-    console.log(e);
     this.router.navigate(['/patient/edit/'+ e.event.id]);
-  }
-
-  public onFileChanged(event: any): void {
-
-    this.selectedFile = event.target.files[0];
-    this.selectedFileCreated = true;
-
-    const reader = new FileReader();
-    reader.readAsDataURL(event.target.files[0]);
-    reader.onload = (_event) => {
-      this.selectedFileUrl = reader.result;
-    }
-
-    this.loaderService.showLoader();
-    this.doctorService.updateDoctorImage(event.target.files[0])
-      .pipe(
-        finalize(() => this.loaderService.hideLoader()),
-        takeUntil(this.unsubscribe$)
-      )
-      .subscribe(
-        // () => this.router.navigate(['/routes'])
-        () => console.log("success")
-      )
-  }
-
-  sanitize(url:string){
-    return this.sanitizer.bypassSecurityTrustUrl(url);
   }
 }

@@ -1,0 +1,43 @@
+.snack-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.author-text{
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+}
+
+.imagelogo{
+  //position: relative;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  overflow: hidden;
+  transition: background-color .2s ease-in-out;
+}
+
+.name {
+  font-size: 3vw;
+  font-style: normal;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 400;
+}
+
+.avatar {
+  vertical-align: middle;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  opacity: 1;
+  transition: opacity .2s ease-in-out;
+  object-fit: cover;
+}
+
+.close-button {
+  &:hover {
+    color: gray;
+    cursor: pointer;
+  }
+}

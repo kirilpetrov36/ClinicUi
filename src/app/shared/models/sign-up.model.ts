@@ -5,4 +5,5 @@ export interface SignUpModel{
     password: string;
     role: string;
     image: File;
+    doctorTypeId: string;
 }

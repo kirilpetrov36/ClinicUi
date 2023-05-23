@@ -1,0 +1,146 @@
+@import "/src/app/shared/styles/vars.scss";
+
+.frame {
+  width: 56.63vw;
+  height: 35vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 2vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+  backdrop-filter: blur(10.6px);
+  -webkit-backdrop-filter: blur(10.6px);
+  border: 2px solid rgba(255, 255, 255, 1);
+  position: relative;
+
+  .create-acc{
+    margin-top: 1vw;
+    color: $font-color-main;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+
+    &:hover{
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+  .simple-imagelogo {
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+
+  .imagelogo{
+    position: relative;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    transition: background-color .2s ease-in-out;
+
+    &:hover {
+      background-color: #111;
+      cursor: pointer;
+    }
+  }
+  .imagelogo:hover avatar__content{
+    opacity: 1;
+  }
+  .imagelogo:hover .avatar {
+    opacity: .5;
+  }
+
+  .avatar {
+    vertical-align: middle;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    opacity: 1;
+    transition: opacity .2s ease-in-out;
+    object-fit: cover;
+  }
+
+  .input {
+    width: 276px;
+    height: 36px;
+    border-radius: 6px;
+    border: 1px solid $gray;
+    padding: 0 12px;
+    margin: 10px 0;
+    font-family: $font-family;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 16px;
+    color: $font-color-second;
+  }
+
+  .view_avatar {
+    vertical-align: middle;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .avatar__content {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    opacity: 0;
+    transition: opacity .2s ease-in-out;
+  }
+
+  .avatar__content:hover {
+    opacity: .5;
+  }
+
+  .avatar__icon {
+    color: white;
+    padding-bottom: 8px;
+  }
+
+
+}
+
+:host ::ng-deep {
+  .submit-button {
+    margin-top: 20px;
+    width: 200px;
+    height: 35px;
+    background: $main-color;
+    border-radius: 5px;
+    box-shadow: unset;
+    position: absolute;
+    bottom: 1.5vw;
+
+    &:hover {
+      background: #38c550;
+    }
+  }
+
+    .mat-button-wrapper {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 14px;
+      line-height: 9px;
+      text-align: center;
+      color: $white;
+      font-family: $font-family;
+    }
+  }

@@ -1,7 +1,9 @@
+<mat-icon class="back-arrow" (click)="location.back()">keyboard_backspace</mat-icon>
+
 <app-sign-out style="position: relative; left: -7vw; bottom: -5vw;"></app-sign-out>
 
 <div class="frame">
-  <div class="name-container">
+  <div class="name-container" (click)="openUser()">
     <div class="imagelogo">
       <img class="avatar"
            [src]="sanitize('https://' + companionImageUrl)"
@@ -27,7 +29,7 @@
     </div>
 
     <div class="input-button">
-        <input placeholder="Message" class="send-form" [formControl]="userInput">
+        <input placeholder="Message" class="send-form" (keyup.enter)="sendMessage()" [formControl]="userInput">
         <mat-icon class="send-button" (click)="sendMessage()">send</mat-icon>
     </div>
 

@@ -19,6 +19,31 @@
   opacity: .5;
 }
 
+.name-box{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 70vw;
+
+  .open-table {
+    width: 10vw;
+    height: 1.7vw;
+    margin-left: auto;
+    &:hover {
+      cursor: pointer;
+      color: #505050;
+    }
+  }
+}
+
+.edit-profile {
+  color: #9695A8;
+  font-size: 16px;
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 .name {
   font-size: 3vw;
   font-style: normal;

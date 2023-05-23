@@ -1,0 +1,23 @@
+<div class="snack-container">
+  <div class="imagelogo" (click)="openChat()">
+    <img class="avatar"
+         [src]="sanitize('https://' + data.imageUrl)"
+         alt="Place image title"
+         *ngIf="isImageExist; else noImageFound">
+
+    <ng-template #noImageFound>
+      <img class="avatar"
+           src="assets/avatar.jpg"
+           alt="Fallbackimage">
+    </ng-template>
+
+  </div>
+  <div class="author-text" (click)="openChat()">
+    <div style="font-weight: 300">{{data.author}}</div>
+    <div>{{data.message}}</div>
+  </div>
+
+  <mat-icon style="margin-left: auto" class="close-button" (click)="closeSnackBar()">close</mat-icon>
+</div>
+
+

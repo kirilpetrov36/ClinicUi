@@ -1,4 +1,4 @@
-import { AfterViewChecked, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
@@ -7,6 +7,8 @@ import { PatientScheduleModel } from 'src/app/shared/models/patient-schedule.mod
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { PatientInfoService } from 'src/app/shared/services/patient-info.service';
 import {SchedulerEvent} from "@progress/kendo-angular-scheduler";
+import {AuthService} from "../../../shared/services/auth.service";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-patient-history',
@@ -24,7 +26,9 @@ export class PatientHistoryComponent implements OnInit, OnDestroy {
     private readonly loaderService: LoaderService,
     private readonly patientInfoService: PatientInfoService,
     private readonly snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    public authService: AuthService,
+    public location: Location
   ) { }
 
   ngOnInit(): void {
@@ -72,7 +76,6 @@ export class PatientHistoryComponent implements OnInit, OnDestroy {
   }
 
   onClick(e: any){
-    console.log(e);
     this.router.navigate(['/chat/by-patient', e.event.id]);
   }
 }

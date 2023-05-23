@@ -1,4 +1,5 @@
 export interface DoctorTypeModel{
-  id: string;
+  id?: string;
   name: string;
+  updatedAt: Date;
 }

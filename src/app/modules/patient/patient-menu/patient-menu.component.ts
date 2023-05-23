@@ -7,6 +7,7 @@ import { PatientInfoModel } from 'src/app/shared/models/patient-info.model';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import { PatientInfoService } from 'src/app/shared/services/patient-info.service';
 import {DomSanitizer} from "@angular/platform-browser";
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-patient-menu',
@@ -26,7 +27,8 @@ export class PatientMenuComponent implements OnInit, OnDestroy {
     private readonly patientInfoService: PatientInfoService,
     private readonly activatedRoute: ActivatedRoute,
     private readonly snackBar: MatSnackBar,
-    private sanitizer:DomSanitizer
+    private sanitizer:DomSanitizer,
+    public location: Location
   ) { }
 
   ngOnInit(): void {
