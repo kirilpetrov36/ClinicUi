@@ -8,6 +8,7 @@ import { SignUpModel } from 'src/app/shared/models/sign-up.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { LoaderService } from 'src/app/shared/services/loader.service';
 import {DoctorTypeModel} from "../../../shared/models/doctor-type.model";
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-sign-up',
@@ -32,7 +33,8 @@ export class SignUpComponent implements OnInit, OnDestroy {
     private readonly formBuilder: FormBuilder,
     private readonly router: Router,
     private readonly loaderService: LoaderService,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBar: MatSnackBar,
+    public location: Location,
   ) { }
 
   ngOnInit(): void {
